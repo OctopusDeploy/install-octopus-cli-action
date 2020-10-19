@@ -18,7 +18,7 @@ func main() {
 	}
 
 	if runtime.GOOS == "linux" {
-		install := exec.Command("apt", "update", "&&", "apt", "install", "--no-install-recommends", "gnupg", "curl", "ca-certificates", "apt-transport-https", "&&", "curl", "-sSfL", "https://apt.octopus.com/public.key", "|", "apt-key", "add", "-", "&&", "sh", "-c", "echo", "deb", "https://apt.octopus.com/", "stable", "main", ">", "/etc/apt/sources.list.d/octopus.com.list", "&&", "apt", "update", "&&", "apt", "install", "octopuscli")
+		install := exec.Command("sudo", "apt", "update", "&&", "apt", "install", "--no-install-recommends", "gnupg", "curl", "ca-certificates", "apt-transport-https", "&&", "curl", "-sSfL", "https://apt.octopus.com/public.key", "|", "apt-key", "add", "-", "&&", "sh", "-c", "echo", "deb", "https://apt.octopus.com/", "stable", "main", ">", "/etc/apt/sources.list.d/octopus.com.list", "&&", "apt", "update", "&&", "apt", "install", "octopuscli")
 		err := install.Run()
 
 		if err != nil {
