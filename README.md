@@ -1,7 +1,7 @@
 # install-octocli
 **README IS STILL IN PROGRESS**
 
-The `OctopusDeploy/install-octocli` action is a Go package ran from a Docker container to install and set up the [Octopus Deploy CLI](https://octopus.com/docs/octopus-rest-api/octopus-cli) to start managing Octopus Deploy from GitHub Actions.
+The `OctopusDeploy/install-octocli` action is a Go package ran from a [composite run(https://docs.github.com/en/free-pro-team@latest/actions/creating-actions/creating-a-composite-run-steps-action) to install and set up the [Octopus Deploy CLI](https://octopus.com/docs/octopus-rest-api/octopus-cli) to start managing Octopus Deploy from GitHub Actions.
 
 * Install Octopus Deploy on a GitHub virtual environment
 
