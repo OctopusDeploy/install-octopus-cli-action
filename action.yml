@@ -1,0 +1,7 @@
+name: 'Install Octopus CLI'
+description: 'Installation of the Octopus CLI'
+runs:
+  using: "composite"
+  steps:
+    - run: ${{ github.action_path }}/installoctocli.go
+      shell: bash
