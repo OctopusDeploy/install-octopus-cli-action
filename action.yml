@@ -3,5 +3,5 @@ description: 'Installation of the Octopus CLI'
 runs:
   using: "composite"
   steps:
-    - run: sudo ${{ github.action_path }}/installoctocli.go
+    - run: ${{ github.action_path }}/installoctocli.go
       shell: bash
