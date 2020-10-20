@@ -2,9 +2,9 @@ name: Go
 
 on:
   push:
-    branches: [ main ]
+    branches: [ develop ]
   pull_request:
-    branches: [ main ]
+    branches: [ develop ]
 
 jobs:
 
@@ -13,13 +13,9 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
-
-      - name: Set up Go 1.x
-        uses: actions/setup-go@v2
-        with:
-          go-version: ^1.13
-          id: go
       
       - name: install Octopus Deploy CLI
         uses: OctopusDeploy/install-octocli@v1
+        with:
+          version: 7.4.2
         
