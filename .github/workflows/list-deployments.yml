@@ -23,6 +23,6 @@ jobs:
           version: 7.4.2
           
       - name: list-octopusdeploy-deploymets
-        run: dotnet-octo list-deployments --server=${{ env.serverURL }} --apiKey=${{ secrets.apiKey }}
+        run: octo list-deployments --server=${{ env.serverURL }} --apiKey=${{ secrets.apiKey }}
         
 
