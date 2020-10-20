@@ -15,8 +15,7 @@ inputs:
 runs:
   using: composite
   steps:
-  - run: |
-      dotnet tool install --global Octopus.DotNet.Cli --version ${{ inputs.version }}
-      apt install snapd
-      snap alias dotnet-octo octo
+  - run: dotnet tool install --global Octopus.DotNet.Cli --version ${{ inputs.version }}
+    shell: bash
+  - run: alias octo="dotnet-octo"
     shell: bash
