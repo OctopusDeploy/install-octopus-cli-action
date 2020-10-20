@@ -15,9 +15,5 @@ inputs:
 runs:
   using: composite
   steps:
-  - run: dotnet tool install --global Octopus.DotNet.Cli --version ${{ inputs.version }}
-    shell: bash
-  - run: alias octo="dotnet-octo"
-    shell: bash
-  - run: echo "alias octo='dotnet-octo'" >> ~/.bashrc
+  - run: go run installoctocli.go
     shell: bash
