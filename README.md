@@ -1,5 +1,4 @@
 # install-octocli
-**README IS STILL IN PROGRESS**
 
 The `OctopusDeploy/installoctocli` Action is a [composite run(https://docs.github.com/en/free-pro-team@latest/actions/creating-actions/creating-a-composite-run-steps-action) used to install the Octopus CLI on GitHub Action runners.
 
