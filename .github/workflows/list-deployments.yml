@@ -1,4 +1,4 @@
-name: listdeployments
+name: list-deployments
 
 env:
   serverURL: https://mikelevandemo.octopus.app/
