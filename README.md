@@ -27,11 +27,11 @@ This Action can be run on the following GitHub Action Runner enviroments:
 To install Octopus Deploy CLI version `7.4.2` on the GitHub Actions Runner:
 
 ```yml
-    steps:
-- name: install Octopus Deploy CLI
-        uses: OctopusDeploy/install-octocli@v1
-        with:
-          version: 7.4.2
+steps:
+  - name: install Octopus Deploy CLI
+    uses: OctopusDeploy/install-octocli@v1
+    with:
+      version: 7.4.2
 ```
 
 **Please Note**
