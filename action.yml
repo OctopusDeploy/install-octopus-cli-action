@@ -19,3 +19,5 @@ runs:
     shell: bash
   - run: alias octo="dotnet-octo"
     shell: bash
+  - run: echo "alias octo='dotnet-octo'" >> ~/.bashrc
+    shell: bash
