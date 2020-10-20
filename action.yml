@@ -1,7 +1,20 @@
 name: 'Install Octopus CLI'
 description: 'Installation of the Octopus CLI'
+
+inputs:
+  version:
+    description: Version to install
+    required: true
+  api_key:
+    description: API key for the Octopus Deploy server
+    required: false
+  server_url:
+    description: Octopus Deploy server URL
+    required: false
+
 runs:
-  using: "composite"
+  using: composite
   steps:
-    - run: ${{ github.action_path }}/installoctocli.go
-      shell: bash
+  - run: |
+      dotnet tool install --global Octopus.DotNet.Cli --version ${{ inputs.version }}
+    shell: bash
