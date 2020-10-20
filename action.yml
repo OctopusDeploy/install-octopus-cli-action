@@ -17,5 +17,6 @@ runs:
   steps:
   - run: |
       dotnet tool install --global Octopus.DotNet.Cli --version ${{ inputs.version }}
+      apt install snapd
       snap alias dotnet-octo octo
     shell: bash
