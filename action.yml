@@ -1,4 +1,4 @@
-name: 'Install OctopusCLI'
+name: 'Install Octopus CLI'
 description: 'Installation of the Octopus CLI'
 
 inputs:
