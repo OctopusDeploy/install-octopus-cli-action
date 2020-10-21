@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
 	"os/exec"
@@ -81,14 +80,24 @@ func main() {
 	}
 
 	if runtime.GOOS == "darwin" {
-		cmd := exec.Command("brew", "tap", "octopusdeploy/taps")
-		cmd = exec.Command("brew", "install", "octopuscli", "-f")
+		cmd1 := exec.Command("bash", "-c", "brew tap octopusdeploy/taps")
+		cmd2 := exec.Command("bash", "-c", "brew install octopuscli -f")
 
-		checkErr := cmd.Run()
+		cmd1.Stdout = os.Stdout
+		cmd1.Stderr = os.Stderr
 
-		if checkErr != nil {
-			fmt.Println("Confirm that octopuscli is not already installed..")
-			fmt.Println(checkErr)
+		cmd2.Stdout = os.Stdout
+		cmd2.Stderr = os.Stderr
+
+		err1 := cmd1.Run()
+		err2 := cmd2.Run()
+
+		if err1 != nil {
+			log.Fatal(err1)
+		}
+
+		if err2 != nil {
+			log.Fatal(err2)
 		}
 	}
 }
