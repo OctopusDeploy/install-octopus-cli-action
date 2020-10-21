@@ -25,7 +25,8 @@ func main() {
 		cmd1 := exec.Command("sudo", "apt", "install", "--no-install-recommends", "gnupg", "curl", "ca-certificates", "apt-transport-https")
 		// cmd2 := exec.Command("curl", "-sSfL", "https://apt.octopus.com/public.key", "|", "sudo", "apt-key add")
 		cmd3 := exec.Command("sudo", "sh", "-c", "echo", "'deb https://apt.octopus.com/ stable main > /etc/apt/sources.list.d/octopus.com.list'")
-		// cmd4 := exec.Command("sudo", "apt", "update", "&&", "sudo", "apt", "install", "octopuscli")
+		// cmd4 := exec.Command("sudo", "apt", "update")
+		cmd4 := exec.Command("sudo", "apt", "install", "octopuscli")
 
 		cmd1.Stdout = os.Stdout
 		cmd1.Stderr = os.Stderr
@@ -36,8 +37,8 @@ func main() {
 		cmd3.Stdout = os.Stdout
 		cmd3.Stderr = os.Stderr
 
-		// cmd4.Stdout = os.Stdout
-		// cmd4.Stderr = os.Stderr
+		cmd4.Stdout = os.Stdout
+		cmd4.Stderr = os.Stderr
 
 		err1 := cmd1.Run()
 		// err2 := cmd2.Run()
@@ -56,9 +57,9 @@ func main() {
 			log.Fatal(err3)
 		}
 
-		// if err4 != nil {
-		//	log.Fatal(err4)
-		//}
+		if err4 != nil {
+			log.Fatal(err4)
+		}
 	}
 
 	if runtime.GOOS == "darwin" {
