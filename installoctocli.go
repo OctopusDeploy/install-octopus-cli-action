@@ -33,7 +33,7 @@ func main() {
 		checkErr := cmd.Run()
 
 		if checkErr != nil {
-			fmt.Println("Confirm that octopuscli is not already installed...")
+			fmt.Println("Confirm that octopuscli is not already installed..")
 			fmt.Println(checkErr)
 		}
 	}
