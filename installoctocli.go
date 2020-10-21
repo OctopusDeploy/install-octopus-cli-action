@@ -20,8 +20,8 @@ func main() {
 	}
 
 	if runtime.GOOS == "linux" {
-		cmd1 := exec.Command("dotnet", "tool", "install", "--global", "Octopus.DotNet.Cli", "--version", "7.4.2")
-		cmd2 := exec.Command("alias", "octo=dotnet-octo")
+		cmd1 := exec.Command("dotnet", "tool", "install", "--global", "Octopus.DotNet.Cli")
+		cmd2 := exec.Command("export", "PATH=$PATH:dotnet-octo")
 
 		cmd1.Stdout = os.Stdout
 		cmd1.Stderr = os.Stderr
