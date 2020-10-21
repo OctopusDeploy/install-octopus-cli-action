@@ -27,7 +27,9 @@ func main() {
 	}
 
 	if runtime.GOOS == "darwin" {
-		cmd := exec.Command("brew", "install", "octopuscli", "-f")
+		cmd := exec.Command("brew", "tap", "octopusdeploy/taps")
+		cmd = exec.Command("brew", "install", "octopuscli", "-f")
+
 		checkErr := cmd.Run()
 
 		if checkErr != nil {
