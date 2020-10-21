@@ -43,7 +43,7 @@ func main() {
 		err1 := cmd1.Run()
 		// err2 := cmd2.Run()
 		err3 := cmd3.Run()
-		// err4 := cmd4.Run()
+		err4 := cmd4.Run()
 
 		if err1 != nil {
 			log.Fatal(err1)
