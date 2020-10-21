@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
 	"os/exec"
 	"runtime"
 )
@@ -19,15 +20,24 @@ func main() {
 	}
 
 	if runtime.GOOS == "linux" {
-		install := exec.Command("sudo", "apt", "install", "--no-install-recommends", "gnupg", "curl", "ca-certificates apt-transport-https")
-		install = exec.Command("curl", "-sSfL", "https://apt.octopus.com/public.key", "|", "sudo", "apt-key", "add", "-")
-		install = exec.Command("sudo", "sh", "-c", "echo deb https://apt.octopus.com/ stable main > /etc/apt/sources.list.d/octopus.com.list")
-		install = exec.Command("sudo", "apt", "update", "&&", "sudo", "apt", "install", "octopuscli")
+		cmd1 := exec.Command("dotnet", "tool", "install", "--global", "Octopus.DotNet.Cli", "--version", "7.4.2")
+		cmd2 := exec.Command("alias", "octo=dotnet-octo")
 
-		err := install.Run()
+		cmd1.Stdout = os.Stdout
+		cmd1.Stderr = os.Stderr
 
-		if err != nil {
-			log.Fatal(err)
+		cmd2.Stdout = os.Stdout
+		cmd2.Stderr = os.Stderr
+
+		err1 := cmd1.Run()
+		err2 := cmd2.Run()
+
+		if err1 != nil {
+			log.Fatal(err1)
+		}
+
+		if err2 != nil {
+			log.Fatal(err2)
 		}
 	}
 
