@@ -10,12 +10,24 @@ import (
 
 func main() {
 	if runtime.GOOS == "windows" {
-		install := exec.Command("choco", "install", "octopustools", "-y")
+		cmd1 := exec.Command("powershell", "-command", "Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))")
+		cmd2 := exec.Command("choco", "install", "octopustools", "-y")
 
-		err := install.Run()
+		cmd1.Stdout = os.Stdout
+		cmd1.Stderr = os.Stderr
 
-		if err != nil {
-			log.Fatal(err)
+		cmd2.Stdout = os.Stdout
+		cmd2.Stderr = os.Stderr
+
+		err1 := cmd1.Run()
+		err2 := cmd2.Run()
+
+		if err1 != nil {
+			log.Fatal(err1)
+		}
+
+		if err2 != nil {
+			log.Fatal(err2)
 		}
 	}
 
