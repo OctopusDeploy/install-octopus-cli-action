@@ -22,9 +22,9 @@ func main() {
 	if runtime.GOOS == "linux" {
 		cmd1 := exec.Command("sudo", "apt", "install", "--no-install-recommends", "gnupg", "curl", "ca-certificates", "apt-transport-https")
 		cmd2 := exec.Command("sudo", "curl", "-sSfL", "https://apt.octopus.com/public.key", "|", "apt-key add")
-		cmd3 := exec.Command("sudo", "sh", "-c", "echo", "'deb https://apt.octopus.com/ stable main > /etc/apt/sources.list.d/octopus.com.list'")
+		cmd3 := exec.Command("sudo sh -c 'echo deb https://apt.octopus.com/ stable main > /etc/apt/sources.list.d/octopus.com.list'")
 		cmd4 := exec.Command("sudo", "apt", "update")
-		cmd5 := exec.Command("sudo", "apt", "install", "octopuscli", "--allow-unauthenticated")
+		cmd5 := exec.Command("sudo", "apt", "install", "octopuscli", "-y")
 
 		cmd1.Stdout = os.Stdout
 		cmd1.Stderr = os.Stderr
