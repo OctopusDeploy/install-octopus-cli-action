@@ -26,7 +26,6 @@ func main() {
 		cmd4 := exec.Command("sudo", "apt", "update")
 		cmd5 := exec.Command("sudo", "apt", "install", "octopuscli", "-y")
 
-
 		cmd1.Stdout = os.Stdout
 		cmd1.Stderr = os.Stderr
 
@@ -44,6 +43,7 @@ func main() {
 
 		err1 := cmd1.Run()
 		err2 := cmd2.Run()
+		err3 := cmd3.Run()
 		err4 := cmd4.Run()
 		err5 := cmd5.Run()
 
@@ -55,7 +55,9 @@ func main() {
 			log.Fatal(err2)
 		}
 
-		cmd3.Run()
+		if err3 != nil {
+			log.Fatal(err3)
+		}
 
 		if err4 != nil {
 			log.Fatal(err4)
