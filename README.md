@@ -1,6 +1,6 @@
 # install-octocli
 
-The `OctopusDeploy/installoctocli` Action is a [composite run(https://docs.github.com/en/free-pro-team@latest/actions/creating-actions/creating-a-composite-run-steps-action) used to install the Octopus CLI on GitHub Action runners.
+The `OctopusDeploy/installoctocli` Action is a [composite run](https://docs.github.com/en/free-pro-team@latest/actions/creating-actions/creating-a-composite-run-steps-action) used to install the Octopus CLI on GitHub Action runners.
 
 Once you use this Action, you can run [Octopus Deploy CLI](https://octopus.com/docs/octopus-rest-api/octopus-cli) commands directly from GitHub Actions.
 
