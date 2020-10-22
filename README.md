@@ -31,6 +31,15 @@ steps:
     uses: OctopusDeploy/install-octocli@v1
 ```
 
+To list deployments using after installing the Octopus Deploy CLI:
+```yml
+      - name: install Octopus Deploy CLI
+        uses: OctopusDeploy/install-octocli@v1
+          
+      - name: list-octopusdeploy-deploymets
+        run: octo list-deployments --server=${{ env.serverURL }} --apiKey=${{ secrets.apiKey }}
+```
+
 ## Inputs
 Inputs/parameters/arguments are currently a work in progress. As right now now, there are no inputs. The `Go` code handles which operating system to use and you always get the latest version of the CLI.
 
