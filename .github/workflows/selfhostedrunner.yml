@@ -10,7 +10,7 @@ jobs:
 
   build:
     name: Build
-    runs-on: selfhosted
+    runs-on: self-hosted
     steps:
 
     - name: Set up Go 1.x
