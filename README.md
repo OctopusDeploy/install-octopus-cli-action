@@ -1,6 +1,6 @@
 # install-octocli
 
-The `OctopusDeploy/installoctocli` Action is a [composite run](https://docs.github.com/en/free-pro-team@latest/actions/creating-actions/creating-a-composite-run-steps-action) writtin in `Go` used to install the Octopus CLI on GitHub Action runners.
+The `OctopusDeploy/installoctocli` Action is a GitHub Action writtin in `JavaScript` that's used to install the Octopus CLI on GitHub Action runners and self-hosted environments
 
 Once you use this Action, you can run [Octopus Deploy CLI](https://octopus.com/docs/octopus-rest-api/octopus-cli) commands directly from GitHub Actions.
 
@@ -21,26 +21,36 @@ This Action can be run on the following GitHub Action Runner enviroments:
 * `windows-latest`
 * `macos-latest`
 * `ubuntu-latest`
+* `self-hosted`
 
 ## Examples
-To install Octopus Deploy CLI version `latest` on the GitHub Actions Runner:
+To install Octopus Deploy CLI version `7.42` on the GitHub Actions Runner:
 
 ```yml
-steps:
-  - name: install Octopus Deploy CLI
-    uses: OctopusDeploy/install-octocli@v1
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: install Octopus Deploy CLI
+        uses: OctopusDeploy/install-octocli@v1
+        with:
+          version: 7.4.2
 ```
 
 To list deployments using after installing the Octopus Deploy CLI:
 ```yml
+    steps:
+      - uses: actions/checkout@v2
+      
       - name: install Octopus Deploy CLI
         uses: OctopusDeploy/install-octocli@v1
+        with:
+          version: 7.4.2
           
       - name: list-octopusdeploy-deploymets
         run: octo list-deployments --server=${{ env.serverURL }} --apiKey=${{ secrets.apiKey }}
 ```
 
 ## Inputs
-Inputs/parameters/arguments are currently a work in progress. As right now now, there are no inputs. The `Go` code handles which operating system to use and you always get the latest version of the CLI.
+Inputs/parameters/arguments are currently a work in progress. There is one input available, which is to specify the version of the Octopus Deploy CLI you wish to use.
 
 
