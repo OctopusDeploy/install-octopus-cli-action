@@ -1,6 +1,6 @@
 # install-octocli
 
-The `OctopusDeploy/installoctocli` Action is a GitHub Action writtin in `JavaScript` that's used to install the Octopus CLI on GitHub Action runners and self-hosted environments
+The `OctopusDeploy/install-octocli` Action is a GitHub Action writtin in `JavaScript` that's used to install the Octopus CLI on GitHub Action runners and self-hosted environments
 
 Once you use this Action, you can run [Octopus Deploy CLI](https://octopus.com/docs/octopus-rest-api/octopus-cli) commands directly from GitHub Actions.
 
