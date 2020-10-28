@@ -1,7 +1,7 @@
 const core = require('@actions/core')
 const octocli = require('./lib/installoctocli')
 
-async function octocli() {
+async function octopuscli() {
     try {
         await setup()
     } catch { 
