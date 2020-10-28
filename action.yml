@@ -5,15 +5,7 @@ inputs:
   version:
     description: Version to install
     required: true
-  api_key:
-    description: API key for the Octopus Deploy server
-    required: false
-  server_url:
-    description: Octopus Deploy server URL
-    required: false
 
 runs:
-  using: composite
-  steps:
-  - run: go run installoctocli.go
-    shell: bash
+  using: node12
+  main: dist/useoctocli.js

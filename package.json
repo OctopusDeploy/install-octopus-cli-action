@@ -1,0 +1,22 @@
+{
+  "name": "install-octocli",
+  "version": "1.0.0",
+  "description": "Install the Octopus CLI using GitHub Actions",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OctopusDeploy/install-octocli.git"
+  },
+  "author": "Octopus Deploy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OctopusDeploy/install-octocli/issues"
+  },
+  "homepage": "https://github.com/OctopusDeploy/install-octocli#readme"
+}
