@@ -24,7 +24,7 @@ This Action can be run on the following GitHub Action Runner enviroments:
 * `self-hosted`
 
 ## Examples
-To install Octopus Deploy CLI version `7.42` on the GitHub Actions Runner:
+To install Octopus Deploy CLI version `7.4.2` on the GitHub Actions Runner:
 
 ```yml
     steps:
