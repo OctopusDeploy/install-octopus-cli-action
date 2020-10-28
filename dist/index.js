@@ -34,7 +34,7 @@ const downloadCache = __webpack_require__(784);
 function downloadOctopus(version) {
     const osDownload = new Map()
     osDownload.set('linux', `https://download.octopusdeploy.com/octopus-tools/${ version }/OctopusTools.${ version }.linux-x64.tar.gz`)
-    osDownload.set(`windows`, `https://download.octopusdeploy.com/octopus-tools/${ version }/OctopusTools.${ version }.win-x64.zip`)
+    osDownload.set(`win32`, `https://download.octopusdeploy.com/octopus-tools/${ version }/OctopusTools.${ version }.win-x64.zip`)
     osDownload.set(`darwin`, `https://download.octopusdeploy.com/octopus-tools/${ version }/OctopusTools.${ version }.osx-x64.tar.gz`)
 
     return osDownload.get(os.platform())
