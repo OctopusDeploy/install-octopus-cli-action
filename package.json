@@ -18,5 +18,9 @@
   "bugs": {
     "url": "https://github.com/OctopusDeploy/install-octocli/issues"
   },
-  "homepage": "https://github.com/OctopusDeploy/install-octocli#readme"
+  "homepage": "https://github.com/OctopusDeploy/install-octocli#readme",
+  "dependencies": {
+    "@actions/core": "^1.2.6",
+    "@actions/tool-cache": "^1.6.0"
+  }
 }
