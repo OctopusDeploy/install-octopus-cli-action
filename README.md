@@ -46,7 +46,7 @@ To list deployments using after installing the Octopus Deploy CLI:
         with:
           version: 7.4.2
           
-      - name: list-octopusdeploy-deploymets
+      - name: list-octopusdeploy-deployments
         run: octo list-deployments --server=${{ env.serverURL }} --apiKey=${{ secrets.apiKey }}
 ```
 
