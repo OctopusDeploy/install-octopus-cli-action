@@ -1,35 +1,34 @@
-require('./sourcemap-register.js');module.exports =
+module.exports =
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
 /***/ 932:
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
-const core = __webpack_require__(186);
+const core = __webpack_require__(186)
+const octocli = __webpack_require__(736)
 
-const acquire = __webpack_require__(286);
+async function octopuscli() {
+    const version = core.getInput('version')
 
-(async () => {
-  const version = core.getInput('version');
+    try {
+        await octocli(version)
+    } catch (error){
+        core.setFailed(error.message)
+    }
+}
 
-  try {
-    await acquire(version);
-  } catch (e) {
-    core.setFailed(e);
-  }
-})();
+octopuscli()
 
 
 /***/ }),
 
-/***/ 286:
+/***/ 736:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-const os = __webpack_require__(87);
-
-const core = __webpack_require__(186);
-const downloadCache = __webpack_require__(784);
-
+const os = __webpack_require__(87)
+const core = __webpack_require__(186)
+const downloadCache = __webpack_require__(784)
 
 function downloadOctopus(version) {
     const osDownload = new Map()
@@ -49,8 +48,8 @@ async function installoctocli(version) {
     let extractDirectory
     
     if (URL.endsWith('.zip')) {
-        extractDirectory = await downloadCache.extractZip(path)
         core.debug('Downloading Octopus CLI version ${version}')
+        extractDirectory = await downloadCache.extractZip(path)
     } else if (URL.endsWith('.gz')) {
         core.debug('Downloading Octopus CLI version ${version}')
         extractDirectory = await downloadCache.extractTar(path)
@@ -60,7 +59,6 @@ async function installoctocli(version) {
 }
 
 module.exports = installoctocli
-
 
 /***/ }),
 
@@ -2455,7 +2453,7 @@ class HTTPError extends Error {
     constructor(httpStatusCode) {
         super(`Unexpected HTTP response: ${httpStatusCode}`);
         this.httpStatusCode = httpStatusCode;
-        Object.setPrototypeOf(this, /* unsupported import.meta.prototype */ undefined);
+        Object.setPrototypeOf(this, new.target.prototype);
     }
 }
 exports.HTTPError = HTTPError;
@@ -4996,7 +4994,7 @@ module.exports = v4;
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("assert");
+module.exports = require("assert");;
 
 /***/ }),
 
@@ -5004,7 +5002,7 @@ module.exports = require("assert");
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("child_process");
+module.exports = require("child_process");;
 
 /***/ }),
 
@@ -5012,7 +5010,7 @@ module.exports = require("child_process");
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("crypto");
+module.exports = require("crypto");;
 
 /***/ }),
 
@@ -5020,7 +5018,7 @@ module.exports = require("crypto");
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("events");
+module.exports = require("events");;
 
 /***/ }),
 
@@ -5028,7 +5026,7 @@ module.exports = require("events");
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("fs");
+module.exports = require("fs");;
 
 /***/ }),
 
@@ -5036,7 +5034,7 @@ module.exports = require("fs");
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("http");
+module.exports = require("http");;
 
 /***/ }),
 
@@ -5044,7 +5042,7 @@ module.exports = require("http");
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("https");
+module.exports = require("https");;
 
 /***/ }),
 
@@ -5052,7 +5050,7 @@ module.exports = require("https");
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("net");
+module.exports = require("net");;
 
 /***/ }),
 
@@ -5060,7 +5058,7 @@ module.exports = require("net");
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("os");
+module.exports = require("os");;
 
 /***/ }),
 
@@ -5068,7 +5066,7 @@ module.exports = require("os");
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("path");
+module.exports = require("path");;
 
 /***/ }),
 
@@ -5076,7 +5074,7 @@ module.exports = require("path");
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("stream");
+module.exports = require("stream");;
 
 /***/ }),
 
@@ -5084,7 +5082,7 @@ module.exports = require("stream");
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("tls");
+module.exports = require("tls");;
 
 /***/ }),
 
@@ -5092,7 +5090,7 @@ module.exports = require("tls");
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("util");
+module.exports = require("util");;
 
 /***/ })
 
