@@ -1,0 +1,26 @@
+name: test
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+jobs:
+  test:
+    name: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+      - run: npm ci
+      - run: npm run lint --if-present
+      - run: npm run test --if-present
+      - run: npm run build --if-present
+      # Actually run the action
+      - uses: ./
+        with:
+          version:
+            7.4.2
+      - run: |
+          octo version
