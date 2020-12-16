@@ -10,6 +10,9 @@ jobs:
   test:
     name: test
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: [7.4.2] # Add additional versions to test
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
@@ -21,6 +24,19 @@ jobs:
       - uses: ./
         with:
           version:
-            7.4.2
-      - run: |
-          octo version
+            ${{ matrix.version }}
+      - name: Capture version
+        run: |
+          export OCTO_VERSION=$( octo version )
+          echo 'OCTO_VERSION_INSTALLED<<EOF' >> $GITHUB_ENV
+          octo version >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
+      - name: Verify
+        shell: python
+        env:
+          OCTO_VERSION_EXPECTED: ${{ matrix.version }}
+        run: |
+          import sys, os
+          sys.exit(
+              int(not os.environ["OCTO_VERSION_EXPECTED"] in os.environ["OCTO_VERSION_INSTALLED"])
+          )
