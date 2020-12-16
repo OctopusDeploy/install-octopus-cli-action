@@ -6,7 +6,7 @@ async function octopuscli() {
 
     try {
         await octocli(version)
-    } catch (e){ 
+    } catch (error){
         core.setFailed(error.message)
     }
 }
