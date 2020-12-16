@@ -10,3 +10,5 @@ async function octopuscli() {
         core.setFailed(error.message)
     }
 }
+
+octopuscli()
