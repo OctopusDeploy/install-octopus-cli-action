@@ -1,0 +1,20 @@
+name: 'build-test'
+on:
+  pull_request:
+  push:
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest, ubuntu-latest]
+    steps:
+      - uses: actions/checkout@v2
+      - run: npm install
+      - run: npm run all
+      - name: Install Octopus CLI
+        uses: ./
+        with:
+          version: latest
+      - run: octo version

@@ -1,11 +1,16 @@
-name: 'Install Octopus-CLI'
-description: 'Installation of the Octopus CLI'
+name: 'Install Octopus CLI Action'
+description: 'GitHub Action to Install the Octopus CLI'
+author: 'OctopusDeploy'
+branding: 
+  color: 'purple'
+  icon: 'package'
 
 inputs:
   version:
-    description: Version to install
-    required: true
+    default: 'latest'
+    description: 'Octopus CLI version'
+    required: false
 
 runs:
-  using: node12
-  main: dist/index.js
+  using: 'node12'
+  main: 'dist/index.js'

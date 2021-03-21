@@ -2,65 +2,166 @@ require('./sourcemap-register.js');module.exports =
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 932:
-/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+/***/ 109:
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
-const core = __webpack_require__(186);
+"use strict";
 
-const acquire = __webpack_require__(286);
-
-(async () => {
-  const version = core.getInput('version');
-
-  try {
-    await acquire(version);
-  } catch (e) {
-    core.setFailed(e);
-  }
-})();
-
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const core = __importStar(__webpack_require__(186));
+const path_1 = __webpack_require__(622);
+const installer = __importStar(__webpack_require__(964));
+function run() {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const version = core.getInput('version') || 'latest';
+            const octopusCli = yield installer.installOctopusCli(version);
+            const octopusCliDir = path_1.dirname(octopusCli);
+            core.addPath(octopusCliDir);
+            core.debug(`Added ${octopusCliDir} to PATH`);
+        }
+        catch (error) {
+            core.setFailed(error.message);
+        }
+    });
+}
+run();
+//# sourceMappingURL=main.js.map
 
 /***/ }),
 
-/***/ 286:
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+/***/ 964:
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
-const os = __webpack_require__(87);
+"use strict";
 
-const core = __webpack_require__(186);
-const downloadCache = __webpack_require__(784);
-
-
-function downloadOctopus(version) {
-    const osDownload = new Map()
-    osDownload.set('linux', `https://download.octopusdeploy.com/octopus-tools/${ version }/OctopusTools.${ version }.linux-x64.tar.gz`)
-    osDownload.set(`win32`, `https://download.octopusdeploy.com/octopus-tools/${ version }/OctopusTools.${ version }.win-x64.zip`)
-    osDownload.set(`darwin`, `https://download.octopusdeploy.com/octopus-tools/${ version }/OctopusTools.${ version }.osx-x64.tar.gz`)
-
-    return osDownload.get(os.platform())
-}
-
-async function installoctocli(version) {
-    const URL = downloadOctopus(version)
-    core.debug('Retrieving ${version}')
-
-    const path = await downloadCache.downloadTool(URL)
-
-    let extractDirectory
-    
-    if (URL.endsWith('.zip')) {
-        extractDirectory = await downloadCache.extractZip(path)
-        core.debug('Downloading Octopus CLI version ${version}')
-    } else if (URL.endsWith('.gz')) {
-        core.debug('Downloading Octopus CLI version ${version}')
-        extractDirectory = await downloadCache.extractTar(path)
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.installOctopusCli = void 0;
+const os = __importStar(__webpack_require__(87));
+const path = __importStar(__webpack_require__(622));
+const core = __importStar(__webpack_require__(186));
+const tc = __importStar(__webpack_require__(784));
+const httpm = __importStar(__webpack_require__(925));
+const osPlatform = os.platform();
+const platform = osPlatform === 'win32' ? 'win' : osPlatform === 'darwin' ? 'osx' : 'linux';
+const ext = osPlatform === 'win32' ? 'zip' : 'tar.gz';
+const octopusTools = `https://download.octopusdeploy.com/octopus-tools`;
+const latestUrl = `${octopusTools}/latest.json`;
+const http = new httpm.HttpClient('action-install-octopus-cli', undefined, {
+    keepAlive: false
+});
+const getLatest = () => __awaiter(void 0, void 0, void 0, function* () {
+    return (yield http.getJson(latestUrl)).result;
+});
+const getDownloadUrl = (version) => __awaiter(void 0, void 0, void 0, function* () {
+    let versionToDownload = version;
+    if (version === 'latest') {
+        try {
+            const downloads = yield getLatest();
+            if (downloads !== null) {
+                versionToDownload = downloads.latest;
+            }
+        }
+        catch (error) {
+            core.setFailed(error);
+        }
     }
-
-    core.addPath(extractDirectory)
+    const downloadUrl = `${octopusTools}/${versionToDownload}/OctopusTools.${versionToDownload}.${platform}-x64.${ext}`;
+    const statusCode = (yield http.head(downloadUrl)).message.statusCode;
+    if (statusCode !== 200) {
+        core.setFailed(`⚠️ Octopus CLI version not found: ${versionToDownload}`);
+        throw new Error(`Octopus CLI version not found: ${versionToDownload}`);
+    }
+    core.info(`🎉 Octopus CLI version found: ${versionToDownload}`);
+    return { version: versionToDownload, url: downloadUrl };
+});
+function installOctopusCli(version) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let octopusCliDownload;
+        try {
+            octopusCliDownload = yield getDownloadUrl(version);
+        }
+        catch (error) {
+            return '';
+        }
+        core.info(`⬇️ Downloading Octopus CLI ${octopusCliDownload.version}...`);
+        const downloadPath = yield tc.downloadTool(octopusCliDownload.url);
+        core.debug(`Downloaded to ${downloadPath}`);
+        core.info(`📦 Extracting Octopus CLI ${octopusCliDownload.version}...`);
+        let extPath = '';
+        if (osPlatform === 'win32') {
+            extPath = yield tc.extractZip(downloadPath);
+        }
+        else if (octopusCliDownload.url.endsWith('.gz')) {
+            extPath = yield tc.extractTar(downloadPath);
+        }
+        core.debug(`Extracted to ${extPath}`);
+        const cachePath = yield tc.cacheDir(extPath, 'octo', version);
+        core.debug(`Cached to ${cachePath}`);
+        const exePath = path.join(cachePath, osPlatform === 'win32' ? 'octo.exe' : 'octo');
+        core.debug(`Executable path is ${exePath}`);
+        core.info(`🐙 Octopus CLI ${octopusCliDownload.version} installed successfully`);
+        return exePath;
+    });
 }
-
-module.exports = installoctocli
-
+exports.installOctopusCli = installOctopusCli;
+//# sourceMappingURL=octopus-cli.js.map
 
 /***/ }),
 
@@ -2455,7 +2556,7 @@ class HTTPError extends Error {
     constructor(httpStatusCode) {
         super(`Unexpected HTTP response: ${httpStatusCode}`);
         this.httpStatusCode = httpStatusCode;
-        Object.setPrototypeOf(this, /* unsupported import.meta.prototype */ undefined);
+        Object.setPrototypeOf(this, new.target.prototype);
     }
 }
 exports.HTTPError = HTTPError;
@@ -4996,7 +5097,7 @@ module.exports = v4;
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("assert");
+module.exports = require("assert");;
 
 /***/ }),
 
@@ -5004,7 +5105,7 @@ module.exports = require("assert");
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("child_process");
+module.exports = require("child_process");;
 
 /***/ }),
 
@@ -5012,7 +5113,7 @@ module.exports = require("child_process");
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("crypto");
+module.exports = require("crypto");;
 
 /***/ }),
 
@@ -5020,7 +5121,7 @@ module.exports = require("crypto");
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("events");
+module.exports = require("events");;
 
 /***/ }),
 
@@ -5028,7 +5129,7 @@ module.exports = require("events");
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("fs");
+module.exports = require("fs");;
 
 /***/ }),
 
@@ -5036,7 +5137,7 @@ module.exports = require("fs");
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("http");
+module.exports = require("http");;
 
 /***/ }),
 
@@ -5044,7 +5145,7 @@ module.exports = require("http");
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("https");
+module.exports = require("https");;
 
 /***/ }),
 
@@ -5052,7 +5153,7 @@ module.exports = require("https");
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("net");
+module.exports = require("net");;
 
 /***/ }),
 
@@ -5060,7 +5161,7 @@ module.exports = require("net");
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("os");
+module.exports = require("os");;
 
 /***/ }),
 
@@ -5068,7 +5169,7 @@ module.exports = require("os");
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("path");
+module.exports = require("path");;
 
 /***/ }),
 
@@ -5076,7 +5177,7 @@ module.exports = require("path");
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("stream");
+module.exports = require("stream");;
 
 /***/ }),
 
@@ -5084,7 +5185,7 @@ module.exports = require("stream");
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("tls");
+module.exports = require("tls");;
 
 /***/ }),
 
@@ -5092,7 +5193,7 @@ module.exports = require("tls");
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("util");
+module.exports = require("util");;
 
 /***/ })
 
@@ -5134,6 +5235,7 @@ module.exports = require("util");
 /******/ 	// module exports must be returned from runtime so entry inlining is disabled
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(932);
+/******/ 	return __webpack_require__(109);
 /******/ })()
 ;
+//# sourceMappingURL=index.js.map

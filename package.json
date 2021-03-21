@@ -1,29 +1,67 @@
 {
-  "name": "install-octocli",
-  "version": "1.0.0",
-  "description": "Install the Octopus CLI using GitHub Actions",
-  "main": "index.js",
-  "directories": {
-    "lib": "lib"
-  },
+  "name": "install-octopus-cli-action",
+  "version": "1.1.0",
+  "description": "GitHub Action to Install the Octopus CLI",
+  "main": "lib/main.js",
   "scripts": {
-    "test": "jest"
+    "build": "tsc && ncc build",
+    "format": "prettier --write **/*.ts",
+    "format-check": "prettier --check **/*.ts",
+    "lint": "eslint src/**/*.ts",
+    "package": "ncc build --source-map --license licenses.txt",
+    "test": "jest",
+    "all": "npm run build && npm run format && npm run lint && npm run package && npm test"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/OctopusDeploy/install-octocli.git"
+    "url": "git+https://github.com/OctopusDeploy/install-octopus-cli-action.git"
   },
   "author": "Octopus Deploy",
-  "license": "ISC",
   "bugs": {
-    "url": "https://github.com/OctopusDeploy/install-octocli/issues"
+    "url": "https://github.com/OctopusDeploy/install-octopus-cli-action/issues"
   },
-  "homepage": "https://github.com/OctopusDeploy/install-octocli#readme",
+  "homepage": "https://github.com/OctopusDeploy/install-octopus-cli-action#readme",
+  "jest": {
+    "clearMocks": true,
+    "collectCoverage": true,
+    "moduleFileExtensions": [
+      "js",
+      "ts"
+    ],
+    "setupFiles": [
+      "<rootDir>/src/test-setup.ts"
+    ],
+    "testEnvironment": "node",
+    "testMatch": [
+      "**/*.test.ts"
+    ],
+    "testRunner": "jest-circus/runner",
+    "testTimeout": 10000,
+    "transform": {
+      "^.+\\.ts$": "ts-jest"
+    },
+    "verbose": true
+  },
   "dependencies": {
     "@actions/core": "^1.2.6",
-    "@actions/tool-cache": "^1.6.0"
+    "@actions/http-client": "^1.0.9",
+    "@actions/tool-cache": "^1.6.1"
   },
   "devDependencies": {
-    "jest": "^26.6.1"
+    "@types/jest": "^26.0.15",
+    "@types/node": "^14.14.9",
+    "@types/tmp": "^0.2.0",
+    "@typescript-eslint/parser": "^4.8.1",
+    "@vercel/ncc": "^0.25.1",
+    "eslint": "^7.17.0",
+    "eslint-plugin-github": "^4.1.1",
+    "eslint-plugin-jest": "^24.1.3",
+    "jest": "^26.6.3",
+    "jest-circus": "^26.6.3",
+    "js-yaml": "^3.14.0",
+    "prettier": "2.2.1",
+    "tmp": "^0.2.1",
+    "ts-jest": "^26.4.4",
+    "typescript": "^4.1.3"
   }
 }
