@@ -1,4 +1,4 @@
-name: 'Install Octopus CLI Action'
+name: 'Install Octopus CLI'
 description: 'GitHub Action to Install the Octopus CLI'
 author: 'OctopusDeploy'
 branding: 
