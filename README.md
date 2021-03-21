@@ -23,7 +23,7 @@ To install the latest version of the Octopus CLI:
 steps:
   - uses: actions/checkout@v2
   - name: Install Octopus CLI
-    uses: OctopusDeploy/install-octopus-cli-action@v1.1
+    uses: OctopusDeploy/install-octopus-cli-action@v1.1.2
     with:
       version: latest
 ```
@@ -34,7 +34,7 @@ To install a specific version of the Octopus CLI:
 steps:
   - uses: actions/checkout@v2
   - name: Install Octopus CLI
-    uses: OctopusDeploy/install-octopus-cli-action@v1.1
+    uses: OctopusDeploy/install-octopus-cli-action@v1.1.2
     with:
       version: 7.4.3140
 ```
@@ -45,13 +45,15 @@ To list deployments using after installing the Octopus CLI:
 steps:
   - uses: actions/checkout@v2
   - name: Install Octopus CLI
-    uses: OctopusDeploy/install-octopus-cli-action@v1.1
+    uses: OctopusDeploy/install-octopus-cli-action@v1.1.2
     with:
       version: 7.4.2
   - name: list-octopusdeploy-deployments
     run: octo list-deployments --server=${{ env.serverURL }} --apiKey=${{ secrets.apiKey }}
 ```
 
-## Inputs
+## Action Inputs
 
-Inputs/parameters/arguments are currently a work in progress. There is one input available, which is to specify the version of the Octopus Deploy CLI you wish to use.
+| Name | Description | Required | Default |
+| :- | :- | :-: | :-: |
+| `version` | The version number of the Octopus CLI to download and install (i.e. `7.4.3140`). | `false` | `latest` |
