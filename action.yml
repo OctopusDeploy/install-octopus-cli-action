@@ -1,9 +1,9 @@
 name: 'Install Octopus CLI'
-description: 'GitHub Action to Install the Octopus CLI'
-author: 'OctopusDeploy'
+description: 'GitHub Action to install the Octopus CLI'
+author: 'Octopus Deploy'
 branding: 
-  color: 'purple'
-  icon: 'package'
+  color: 'blue'
+  icon: 'download'
 
 inputs:
   version:
