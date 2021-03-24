@@ -1,4 +1,4 @@
-This is a GitHub Action install the [Octopus CLI](https://octopus.com/docs/octopus-rest-api/octopus-cli) on runners and self-hosted environments. Once installed, the Octopus CLI may be used to issue commands to an instance of Octopus Server or Octopus Cloud. Subsequent actions may use the Octopus CLI, which is cached and available via `PATH`.
+This is a GitHub Action install the [Octopus CLI](https://octopus.com/docs/octopus-rest-api/octopus-cli) on runners and self-hosted environments. Once installed, the Octopus CLI may be used to issue commands to [Octopus Deploy](https://octopus.com/). Subsequent actions may use the Octopus CLI, which is cached and available via `PATH`.
 
 ## What is the Octopus CLI?
 
