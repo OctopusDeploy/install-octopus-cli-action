@@ -10,7 +10,8 @@ jobs:
       matrix:
         os: [macos-latest, windows-latest, ubuntu-latest]
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2
       - run: npm install
       - run: npm run all
       - name: Install Octopus CLI
