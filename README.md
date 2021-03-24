@@ -45,6 +45,8 @@ steps:
 
 ## Action Inputs
 
-| Name | Description | Required | Default |
-| :- | :- | :-: | :-: |
-| `version` | The version number of the Octopus CLI to download and install (i.e. `7.4.3140`). | `false` | `latest` |
+The following inputs are optional:
+
+| Name | Description | Default |
+| :- | :- | :-: |
+| `version` | The version number of the Octopus CLI to download and install (i.e. `7.4.3140`). | `latest` |
