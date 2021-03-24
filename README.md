@@ -4,7 +4,7 @@ This is a GitHub Action to install the [Octopus CLI](https://octopus.com/docs/oc
 
 ## What is the Octopus CLI?
 
-The Octopus CLI is a command line tool that builds on top of the [Octopus REST API](https://octopus.com/docs/octopus-rest-api). With the Octopus CLI you can package your applications for deployment as either Zip or NuGet packages, and manage your environments, deployments, channels, projects, and workers.
+The Octopus CLI is a command line tool that builds on top of the [Octopus REST API](https://octopus.com/docs/octopus-rest-api). With the Octopus CLI you can package your applications for deployment as either Zip or NuGet packages, and manage your environments, deployments, channels, projects, and workers. Once installed, the Octopus CLI will be cached and available to use via `PATH`.
 
 ## Usage
 
@@ -39,7 +39,7 @@ steps:
       version: 7.4.3140
 ```
 
-To list deployments using after installing the Octopus CLI:
+Here's an example of invoking the `list-deployments` command after installing the Octopus CLI:
 
 ```yml
 steps:
