@@ -44,7 +44,7 @@
   },
   "dependencies": {
     "@actions/core": "^1.2.6",
-    "@actions/http-client": "^1.0.9",
+    "@actions/http-client": "^1.0.10",
     "@actions/tool-cache": "^1.6.1"
   },
   "devDependencies": {
