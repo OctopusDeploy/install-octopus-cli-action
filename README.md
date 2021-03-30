@@ -6,7 +6,7 @@ This is a GitHub Action install the [Octopus CLI](https://octopus.com/docs/octop
 
 ## What is the Octopus CLI?
 
-The Octopus CLI is a command line tool that builds on top of the [Octopus REST API](https://octopus.com/docs/octopus-rest-api). It enables you can package applications for deployment and manage your environments, deployments, channels, projects, and workers in Octopus Deploy.
+The Octopus CLI is a command line tool that builds on top of the [Octopus REST API](https://octopus.com/docs/octopus-rest-api). It enables you to package applications for deployment and manage your environments, deployments, channels, projects, and workers in Octopus Deploy.
 
 ## Examples
 
