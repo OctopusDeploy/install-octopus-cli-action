@@ -1,168 +1,11 @@
 require('./sourcemap-register.js');/******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 109:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+/***/ 283:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
-
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-const core = __importStar(__nccwpck_require__(186));
-const path_1 = __nccwpck_require__(622);
-const installer = __importStar(__nccwpck_require__(964));
-function run() {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            const version = core.getInput('version') || 'latest';
-            const octopusCli = yield installer.installOctopusCli(version);
-            const octopusCliDir = path_1.dirname(octopusCli);
-            core.addPath(octopusCliDir);
-            core.debug(`Added ${octopusCliDir} to PATH`);
-        }
-        catch (error) {
-            core.setFailed(error.message);
-        }
-    });
-}
-run();
-
-
-/***/ }),
-
-/***/ 964:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
-
-"use strict";
-
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.installOctopusCli = void 0;
-const os = __importStar(__nccwpck_require__(87));
-const path = __importStar(__nccwpck_require__(622));
-const core = __importStar(__nccwpck_require__(186));
-const tc = __importStar(__nccwpck_require__(784));
-const httpm = __importStar(__nccwpck_require__(925));
-const osPlatform = os.platform();
-const platform = osPlatform === 'win32' ? 'win' : osPlatform === 'darwin' ? 'osx' : 'linux';
-const ext = osPlatform === 'win32' ? 'zip' : 'tar.gz';
-const octopusTools = `https://download.octopusdeploy.com/octopus-tools`;
-const latestUrl = `${octopusTools}/latest.json`;
-const http = new httpm.HttpClient('action-install-octopus-cli', undefined, {
-    keepAlive: false
-});
-const getLatest = () => __awaiter(void 0, void 0, void 0, function* () {
-    return (yield http.getJson(latestUrl)).result;
-});
-const getDownloadUrl = (version) => __awaiter(void 0, void 0, void 0, function* () {
-    let versionToDownload = version;
-    if (version === 'latest') {
-        try {
-            const downloads = yield getLatest();
-            if (downloads !== null) {
-                versionToDownload = downloads.latest;
-            }
-        }
-        catch (error) {
-            core.setFailed(error);
-        }
-    }
-    const downloadUrl = `${octopusTools}/${versionToDownload}/OctopusTools.${versionToDownload}.${platform}-x64.${ext}`;
-    const statusCode = (yield http.head(downloadUrl)).message.statusCode;
-    if (statusCode !== 200) {
-        core.setFailed(`⚠️ Octopus CLI version not found: ${versionToDownload}`);
-        throw new Error(`Octopus CLI version not found: ${versionToDownload}`);
-    }
-    core.info(`🎉 Octopus CLI version found: ${versionToDownload}`);
-    return { version: versionToDownload, url: downloadUrl };
-});
-function installOctopusCli(version) {
-    return __awaiter(this, void 0, void 0, function* () {
-        let octopusCliDownload;
-        try {
-            octopusCliDownload = yield getDownloadUrl(version);
-        }
-        catch (error) {
-            return '';
-        }
-        core.info(`⬇️ Downloading Octopus CLI ${octopusCliDownload.version}...`);
-        const downloadPath = yield tc.downloadTool(octopusCliDownload.url);
-        core.debug(`Downloaded to ${downloadPath}`);
-        core.info(`📦 Extracting Octopus CLI ${octopusCliDownload.version}...`);
-        let extPath = '';
-        if (osPlatform === 'win32') {
-            extPath = yield tc.extractZip(downloadPath);
-        }
-        else if (octopusCliDownload.url.endsWith('.gz')) {
-            extPath = yield tc.extractTar(downloadPath);
-        }
-        core.debug(`Extracted to ${extPath}`);
-        const cachePath = yield tc.cacheDir(extPath, 'octo', version);
-        core.debug(`Cached to ${cachePath}`);
-        const exePath = path.join(cachePath, osPlatform === 'win32' ? 'octo.exe' : 'octo');
-        core.debug(`Executable path is ${exePath}`);
-        core.info(`🐙 Octopus CLI ${octopusCliDownload.version} installed successfully`);
-        return exePath;
-    });
-}
-exports.installOctopusCli = installOctopusCli;
-
-
-/***/ }),
+/******/ (() => { // webpackBootstrap
+/******/ 	var __webpack_modules__ = ({
 
 /***/ 351:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
@@ -5094,6 +4937,321 @@ module.exports = v4;
 
 /***/ }),
 
+/***/ 971:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const core = __importStar(__nccwpck_require__(186));
+const path_1 = __nccwpck_require__(622);
+const installer = __importStar(__nccwpck_require__(263));
+function run() {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const version = core.getInput('version') || 'latest';
+            const octopusCli = yield installer.installOctopusCli(version);
+            const octopusCliDir = path_1.dirname(octopusCli);
+            core.addPath(octopusCliDir);
+            core.debug(`Added ${octopusCliDir} to PATH`);
+        }
+        catch (error) {
+            core.setFailed(error.message);
+        }
+    });
+}
+run();
+
+
+/***/ }),
+
+/***/ 263:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.installOctopusCli = void 0;
+const os = __importStar(__nccwpck_require__(87));
+const path = __importStar(__nccwpck_require__(622));
+const core = __importStar(__nccwpck_require__(186));
+const tc = __importStar(__nccwpck_require__(784));
+const httpm = __importStar(__nccwpck_require__(925));
+const osPlatform = os.platform();
+const platform = osPlatform === 'win32' ? 'win' : osPlatform === 'darwin' ? 'osx' : 'linux';
+const ext = osPlatform === 'win32' ? 'zip' : 'tar.gz';
+const octopusTools = `https://download.octopusdeploy.com/octopus-tools`;
+const latestUrl = `${octopusTools}/latest.json`;
+const http = new httpm.HttpClient('action-install-octopus-cli', undefined, {
+    keepAlive: false
+});
+const getLatest = () => __awaiter(void 0, void 0, void 0, function* () {
+    return (yield http.getJson(latestUrl)).result;
+});
+const getDownloadUrl = (version) => __awaiter(void 0, void 0, void 0, function* () {
+    let versionToDownload = version;
+    if (version === 'latest') {
+        try {
+            const downloads = yield getLatest();
+            if (downloads !== null) {
+                versionToDownload = downloads.latest;
+            }
+        }
+        catch (error) {
+            core.setFailed(error);
+        }
+    }
+    const downloadUrl = `${octopusTools}/${versionToDownload}/OctopusTools.${versionToDownload}.${platform}-x64.${ext}`;
+    const statusCode = (yield http.head(downloadUrl)).message.statusCode;
+    if (statusCode !== 200) {
+        core.setFailed(`⚠️ Octopus CLI version not found: ${versionToDownload}`);
+        throw new Error(`Octopus CLI version not found: ${versionToDownload}`);
+    }
+    core.info(`🎉 Octopus CLI version found: ${versionToDownload}`);
+    return { version: versionToDownload, url: downloadUrl };
+});
+function installOctopusCli(version) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let octopusCliDownload;
+        try {
+            octopusCliDownload = yield getDownloadUrl(version);
+        }
+        catch (error) {
+            return '';
+        }
+        core.info(`⬇️ Downloading Octopus CLI ${octopusCliDownload.version}...`);
+        const downloadPath = yield tc.downloadTool(octopusCliDownload.url);
+        core.debug(`Downloaded to ${downloadPath}`);
+        core.info(`📦 Extracting Octopus CLI ${octopusCliDownload.version}...`);
+        let extPath = '';
+        if (osPlatform === 'win32') {
+            extPath = yield tc.extractZip(downloadPath);
+        }
+        else if (octopusCliDownload.url.endsWith('.gz')) {
+            extPath = yield tc.extractTar(downloadPath);
+        }
+        core.debug(`Extracted to ${extPath}`);
+        const cachePath = yield tc.cacheDir(extPath, 'octo', version);
+        core.debug(`Cached to ${cachePath}`);
+        const exePath = path.join(cachePath, osPlatform === 'win32' ? 'octo.exe' : 'octo');
+        core.debug(`Executable path is ${exePath}`);
+        core.info(`🐙 Octopus CLI ${octopusCliDownload.version} installed successfully`);
+        return exePath;
+    });
+}
+exports.installOctopusCli = installOctopusCli;
+
+
+/***/ }),
+
+/***/ 357:
+/***/ ((module) => {
+
+"use strict";
+module.exports = __nccwpck_require__(357);;
+
+/***/ }),
+
+/***/ 129:
+/***/ ((module) => {
+
+"use strict";
+module.exports = __nccwpck_require__(129);;
+
+/***/ }),
+
+/***/ 417:
+/***/ ((module) => {
+
+"use strict";
+module.exports = __nccwpck_require__(417);;
+
+/***/ }),
+
+/***/ 614:
+/***/ ((module) => {
+
+"use strict";
+module.exports = __nccwpck_require__(614);;
+
+/***/ }),
+
+/***/ 747:
+/***/ ((module) => {
+
+"use strict";
+module.exports = __nccwpck_require__(747);;
+
+/***/ }),
+
+/***/ 605:
+/***/ ((module) => {
+
+"use strict";
+module.exports = __nccwpck_require__(605);;
+
+/***/ }),
+
+/***/ 211:
+/***/ ((module) => {
+
+"use strict";
+module.exports = __nccwpck_require__(211);;
+
+/***/ }),
+
+/***/ 631:
+/***/ ((module) => {
+
+"use strict";
+module.exports = __nccwpck_require__(631);;
+
+/***/ }),
+
+/***/ 87:
+/***/ ((module) => {
+
+"use strict";
+module.exports = __nccwpck_require__(87);;
+
+/***/ }),
+
+/***/ 622:
+/***/ ((module) => {
+
+"use strict";
+module.exports = __nccwpck_require__(622);;
+
+/***/ }),
+
+/***/ 413:
+/***/ ((module) => {
+
+"use strict";
+module.exports = __nccwpck_require__(413);;
+
+/***/ }),
+
+/***/ 16:
+/***/ ((module) => {
+
+"use strict";
+module.exports = __nccwpck_require__(16);;
+
+/***/ }),
+
+/***/ 669:
+/***/ ((module) => {
+
+"use strict";
+module.exports = __nccwpck_require__(669);;
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __nccwpck_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		var threw = true;
+/******/ 		try {
+/******/ 			__webpack_modules__[moduleId].call(module.exports, module, module.exports, __nccwpck_require__);
+/******/ 			threw = false;
+/******/ 		} finally {
+/******/ 			if(threw) delete __webpack_module_cache__[moduleId];
+/******/ 		}
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/compat */
+/******/ 	
+/******/ 	if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = __dirname + "/";/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module is referenced by other modules so it can't be inlined
+/******/ 	var __webpack_exports__ = __nccwpck_require__(971);
+/******/ 	module.exports = __webpack_exports__;
+/******/ 	
+/******/ })()
+;
+
+/***/ }),
+
 /***/ 357:
 /***/ ((module) => {
 
@@ -5220,7 +5378,7 @@ module.exports = require("util");;
 /******/ 		// Execute the module function
 /******/ 		var threw = true;
 /******/ 		try {
-/******/ 			__webpack_modules__[moduleId].call(module.exports, module, module.exports, __nccwpck_require__);
+/******/ 			__webpack_modules__[moduleId](module, module.exports, __nccwpck_require__);
 /******/ 			threw = false;
 /******/ 		} finally {
 /******/ 			if(threw) delete __webpack_module_cache__[moduleId];
@@ -5238,7 +5396,7 @@ module.exports = require("util");;
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module is referenced by other modules so it can't be inlined
-/******/ 	var __webpack_exports__ = __nccwpck_require__(109);
+/******/ 	var __webpack_exports__ = __nccwpck_require__(283);
 /******/ 	module.exports = __webpack_exports__;
 /******/ 	
 /******/ })()
