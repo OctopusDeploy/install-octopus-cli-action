@@ -5060,21 +5060,15 @@ const getDownloadUrl = (version) => __awaiter(void 0, void 0, void 0, function* 
     const downloadUrl = `${octopusTools}/${versionToDownload}/OctopusTools.${versionToDownload}.${platform}-x64.${ext}`;
     const statusCode = (yield http.head(downloadUrl)).message.statusCode;
     if (statusCode !== 200) {
-        core.setFailed(`⚠️ Octopus CLI version not found: ${versionToDownload}`);
+        core.setFailed(`✕ Octopus CLI version not found: ${versionToDownload}`);
         throw new Error(`Octopus CLI version not found: ${versionToDownload}`);
     }
-    core.info(`🎉 Octopus CLI version found: ${versionToDownload}`);
+    core.info(`✓ Octopus CLI version found: ${versionToDownload}`);
     return { version: versionToDownload, url: downloadUrl };
 });
 function installOctopusCli(version) {
     return __awaiter(this, void 0, void 0, function* () {
-        let octopusCliDownload;
-        try {
-            octopusCliDownload = yield getDownloadUrl(version);
-        }
-        catch (error) {
-            return '';
-        }
+        const octopusCliDownload = yield getDownloadUrl(version);
         core.info(`⬇️ Downloading Octopus CLI ${octopusCliDownload.version}...`);
         const downloadPath = yield tc.downloadTool(octopusCliDownload.url);
         core.debug(`Downloaded to ${downloadPath}`);

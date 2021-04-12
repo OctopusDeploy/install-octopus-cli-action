@@ -45,21 +45,16 @@ const getDownloadUrl = async (version: string): Promise<OctopusCliDownload> => {
 
   const statusCode = (await http.head(downloadUrl)).message.statusCode
   if (statusCode !== 200) {
-    core.setFailed(`⚠️ Octopus CLI version not found: ${versionToDownload}`)
+    core.setFailed(`✕ Octopus CLI version not found: ${versionToDownload}`)
     throw new Error(`Octopus CLI version not found: ${versionToDownload}`)
   }
 
-  core.info(`🎉 Octopus CLI version found: ${versionToDownload}`)
+  core.info(`✓ Octopus CLI version found: ${versionToDownload}`)
   return {version: versionToDownload, url: downloadUrl}
 }
 
 export async function installOctopusCli(version: string): Promise<string> {
-  let octopusCliDownload: OctopusCliDownload
-  try {
-    octopusCliDownload = await getDownloadUrl(version)
-  } catch (error) {
-    return ''
-  }
+  const octopusCliDownload = await getDownloadUrl(version)
 
   core.info(`⬇️ Downloading Octopus CLI ${octopusCliDownload.version}...`)
   const downloadPath: string = await tc.downloadTool(octopusCliDownload.url)

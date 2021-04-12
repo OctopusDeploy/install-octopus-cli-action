@@ -1,19 +1,22 @@
-import * as fs from 'fs'
-import * as installer from '../src/octopus-cli'
+import {installOctopusCli} from '../src/octopus-cli'
 
 describe('installer', () => {
-  it('fails to acquire a version of Octopus CLI', async () => {
-    const octopusCli = await installer.installOctopusCli('0.0.0')
-    expect(fs.existsSync(octopusCli)).toBe(false)
+  test('fails to acquire a version of Octopus CLI', () => {
+    expect.assertions(1)
+    return installOctopusCli('0.0.0').catch(e => {
+      expect(<Error>e.message).toContain('Octopus CLI version not found')
+    })
   }, 100000)
 
-  it('acquire a version of Octopus CLI', async () => {
-    const octopusCli = await installer.installOctopusCli('7.4.3124')
-    expect(fs.existsSync(octopusCli)).toBe(true)
+  test('acquires a version of Octopus CLI', () => {
+    return installOctopusCli('7.4.3124').then(data => {
+      expect(data).toContain('/octo/')
+    })
   }, 100000)
 
-  it('acquires latest version of Octopus CLI', async () => {
-    const octopusCli = await installer.installOctopusCli('latest')
-    expect(fs.existsSync(octopusCli)).toBe(true)
+  test('acquires latest version of Octopus CLI', () => {
+    return installOctopusCli('latest').then(data => {
+      expect(data).toContain('/octo/')
+    })
   }, 100000)
 })
