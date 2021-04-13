@@ -55,19 +55,19 @@
     "github-actions"
   ],
   "license": "Apache-2.0",
-  "main": "dist/index.js",
+  "main": "out/index.js",
   "name": "install-octopus-cli-action",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/OctopusDeploy/install-octopus-cli-action.git"
   },
   "scripts": {
-    "all": "npm run build && npm run format && npm run lint && npm run package && npm test",
-    "build": "tsc && ncc build -o dist",
+    "all": "npm run format && npm run build && npm test",
+    "build": "tsc",
     "format": "prettier --write **/*.ts",
     "format-check": "prettier --check **/*.ts",
-    "lint": "eslint src/**/*.ts",
-    "package": "ncc build --source-map --license licenses.txt",
+    "prebuild": "eslint src/**/*.ts",
+    "postbuild": "ncc build -o dist",
     "test": "jest"
   },
   "version": "1.1.2"
