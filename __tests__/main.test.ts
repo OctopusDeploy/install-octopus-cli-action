@@ -11,7 +11,7 @@ describe('installer', () => {
 
   test('acquires a version of Octopus CLI', () => {
     return installOctopusCli('7.4.3124').then(data => {
-      expect(data).toContain('/octo/')
+      expect(data).toContain(path.sep + 'octo' + path.sep)
     })
   }, 100000)
 
