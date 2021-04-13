@@ -1,3 +1,4 @@
+import * as path from 'path'
 import {installOctopusCli} from '../src/octopus-cli'
 
 describe('installer', () => {
@@ -16,7 +17,7 @@ describe('installer', () => {
 
   test('acquires latest version of Octopus CLI', () => {
     return installOctopusCli('latest').then(data => {
-      expect(data).toContain('/octo/')
+      expect(data).toContain(path.sep + 'octo' + path.sep)
     })
   }, 100000)
 })
