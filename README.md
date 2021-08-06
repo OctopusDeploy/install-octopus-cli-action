@@ -10,7 +10,7 @@ The Octopus CLI is a command line tool that builds on top of the [Octopus REST A
 
 ## Examples
 
-To install the latest version of the Octopus CLI:
+To install the latest version of the Octopus CLI: 
 
 ```yml
 steps:
@@ -24,9 +24,9 @@ steps:
 To install a specific version of the Octopus CLI:
 
 ```yml
-steps:
+steps: 
   - uses: actions/checkout@v2
-  - name: Install Octopus CLI 🐙
+  - name: Install Octopus CLI 🐙 
     uses: OctopusDeploy/install-octopus-cli-action@v1.1.6
     with:
       version: 7.4.3140
