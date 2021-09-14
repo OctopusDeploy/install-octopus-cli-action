@@ -134,7 +134,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.getState = exports.saveState = exports.group = exports.endGroup = exports.startGroup = exports.info = exports.warning = exports.error = exports.debug = exports.isDebug = exports.setFailed = exports.setCommandEcho = exports.setOutput = exports.getBooleanInput = exports.getMultilineInput = exports.getInput = exports.addPath = exports.setSecret = exports.exportVariable = exports.ExitCode = void 0;
+exports.getState = exports.saveState = exports.group = exports.endGroup = exports.startGroup = exports.info = exports.notice = exports.warning = exports.error = exports.debug = exports.isDebug = exports.setFailed = exports.setCommandEcho = exports.setOutput = exports.getBooleanInput = exports.getMultilineInput = exports.getInput = exports.addPath = exports.setSecret = exports.exportVariable = exports.ExitCode = void 0;
 const command_1 = __nccwpck_require__(351);
 const file_command_1 = __nccwpck_require__(717);
 const utils_1 = __nccwpck_require__(278);
@@ -312,19 +312,30 @@ exports.debug = debug;
 /**
  * Adds an error issue
  * @param message error issue message. Errors will be converted to string via toString()
+ * @param properties optional properties to add to the annotation.
  */
-function error(message) {
-    command_1.issue('error', message instanceof Error ? message.toString() : message);
+function error(message, properties = {}) {
+    command_1.issueCommand('error', utils_1.toCommandProperties(properties), message instanceof Error ? message.toString() : message);
 }
 exports.error = error;
 /**
- * Adds an warning issue
+ * Adds a warning issue
  * @param message warning issue message. Errors will be converted to string via toString()
+ * @param properties optional properties to add to the annotation.
  */
-function warning(message) {
-    command_1.issue('warning', message instanceof Error ? message.toString() : message);
+function warning(message, properties = {}) {
+    command_1.issueCommand('warning', utils_1.toCommandProperties(properties), message instanceof Error ? message.toString() : message);
 }
 exports.warning = warning;
+/**
+ * Adds a notice issue
+ * @param message notice issue message. Errors will be converted to string via toString()
+ * @param properties optional properties to add to the annotation.
+ */
+function notice(message, properties = {}) {
+    command_1.issueCommand('notice', utils_1.toCommandProperties(properties), message instanceof Error ? message.toString() : message);
+}
+exports.notice = notice;
 /**
  * Writes info to log with console.log.
  * @param message info message
@@ -458,7 +469,7 @@ exports.issueCommand = issueCommand;
 // We use any as a valid input type
 /* eslint-disable @typescript-eslint/no-explicit-any */
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.toCommandValue = void 0;
+exports.toCommandProperties = exports.toCommandValue = void 0;
 /**
  * Sanitizes an input into a string so it can be passed into issueCommand safely
  * @param input input to sanitize into a string
@@ -473,6 +484,25 @@ function toCommandValue(input) {
     return JSON.stringify(input);
 }
 exports.toCommandValue = toCommandValue;
+/**
+ *
+ * @param annotationProperties
+ * @returns The command properties to send with the actual annotation command
+ * See IssueCommandProperties: https://github.com/actions/runner/blob/main/src/Runner.Worker/ActionCommandManager.cs#L646
+ */
+function toCommandProperties(annotationProperties) {
+    if (!Object.keys(annotationProperties).length) {
+        return {};
+    }
+    return {
+        title: annotationProperties.title,
+        line: annotationProperties.startLine,
+        endLine: annotationProperties.endLine,
+        col: annotationProperties.startColumn,
+        endColumn: annotationProperties.endColumn
+    };
+}
+exports.toCommandProperties = toCommandProperties;
 //# sourceMappingURL=utils.js.map
 
 /***/ }),
@@ -5146,25 +5176,6 @@ module.exports = v4;
 
 "use strict";
 
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -5175,20 +5186,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const core = __importStar(__nccwpck_require__(186));
+const core_1 = __nccwpck_require__(186);
 const path_1 = __nccwpck_require__(622);
-const installer = __importStar(__nccwpck_require__(263));
+const octopus_cli_1 = __nccwpck_require__(263);
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const version = core.getInput('version') || 'latest';
-            const octopusCli = yield installer.installOctopusCli(version);
-            const octopusCliDir = path_1.dirname(octopusCli);
-            core.addPath(octopusCliDir);
-            core.debug(`Added ${octopusCliDir} to PATH`);
+            const version = (0, core_1.getInput)('version') || 'latest';
+            const octopusCli = yield (0, octopus_cli_1.installOctopusCli)(version);
+            const octopusCliDir = (0, path_1.dirname)(octopusCli);
+            (0, core_1.addPath)(octopusCliDir);
+            (0, core_1.debug)(`Added ${octopusCliDir} to PATH`);
         }
-        catch (error) {
-            core.setFailed(error.message);
+        catch (e) {
+            if (e instanceof Error) {
+                (0, core_1.setFailed)(e);
+            }
         }
     });
 }
@@ -5232,17 +5245,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.installOctopusCli = void 0;
+const tool_cache_1 = __nccwpck_require__(784);
+const core_1 = __nccwpck_require__(186);
+const http_client_1 = __nccwpck_require__(925);
+const path_1 = __nccwpck_require__(622);
 const os = __importStar(__nccwpck_require__(87));
-const path = __importStar(__nccwpck_require__(622));
-const core = __importStar(__nccwpck_require__(186));
-const tc = __importStar(__nccwpck_require__(784));
-const httpm = __importStar(__nccwpck_require__(925));
 const osPlatform = os.platform();
 const platform = osPlatform === 'win32' ? 'win' : osPlatform === 'darwin' ? 'osx' : 'linux';
 const ext = osPlatform === 'win32' ? 'zip' : 'tar.gz';
 const octopusTools = `https://download.octopusdeploy.com/octopus-tools`;
 const latestUrl = `${octopusTools}/latest.json`;
-const http = new httpm.HttpClient('action-install-octopus-cli', undefined, {
+const http = new http_client_1.HttpClient('action-install-octopus-cli', undefined, {
     keepAlive: false
 });
 const getLatest = () => __awaiter(void 0, void 0, void 0, function* () {
@@ -5257,39 +5270,41 @@ const getDownloadUrl = (version) => __awaiter(void 0, void 0, void 0, function* 
                 versionToDownload = downloads.latest;
             }
         }
-        catch (error) {
-            core.setFailed(error);
+        catch (e) {
+            if (e instanceof Error) {
+                (0, core_1.setFailed)(e);
+            }
         }
     }
     const downloadUrl = `${octopusTools}/${versionToDownload}/OctopusTools.${versionToDownload}.${platform}-x64.${ext}`;
     const statusCode = (yield http.head(downloadUrl)).message.statusCode;
     if (statusCode !== 200) {
-        core.setFailed(`✕ Octopus CLI version not found: ${versionToDownload}`);
+        (0, core_1.setFailed)(`✕ Octopus CLI version not found: ${versionToDownload}`);
         throw new Error(`Octopus CLI version not found: ${versionToDownload}`);
     }
-    core.info(`✓ Octopus CLI version found: ${versionToDownload}`);
+    (0, core_1.info)(`✓ Octopus CLI version found: ${versionToDownload}`);
     return { version: versionToDownload, url: downloadUrl };
 });
 function installOctopusCli(version) {
     return __awaiter(this, void 0, void 0, function* () {
         const octopusCliDownload = yield getDownloadUrl(version);
-        core.info(`⬇️ Downloading Octopus CLI ${octopusCliDownload.version}...`);
-        const downloadPath = yield tc.downloadTool(octopusCliDownload.url);
-        core.debug(`Downloaded to ${downloadPath}`);
-        core.info(`📦 Extracting Octopus CLI ${octopusCliDownload.version}...`);
+        (0, core_1.info)(`⬇️ Downloading Octopus CLI ${octopusCliDownload.version}...`);
+        const downloadPath = yield (0, tool_cache_1.downloadTool)(octopusCliDownload.url);
+        (0, core_1.debug)(`Downloaded to ${downloadPath}`);
+        (0, core_1.info)(`📦 Extracting Octopus CLI ${octopusCliDownload.version}...`);
         let extPath = '';
         if (osPlatform === 'win32') {
-            extPath = yield tc.extractZip(downloadPath);
+            extPath = yield (0, tool_cache_1.extractZip)(downloadPath);
         }
         else if (octopusCliDownload.url.endsWith('.gz')) {
-            extPath = yield tc.extractTar(downloadPath);
+            extPath = yield (0, tool_cache_1.extractTar)(downloadPath);
         }
-        core.debug(`Extracted to ${extPath}`);
-        const cachePath = yield tc.cacheDir(extPath, 'octo', version);
-        core.debug(`Cached to ${cachePath}`);
-        const exePath = path.join(cachePath, osPlatform === 'win32' ? 'octo.exe' : 'octo');
-        core.debug(`Executable path is ${exePath}`);
-        core.info(`🐙 Octopus CLI ${octopusCliDownload.version} installed successfully`);
+        (0, core_1.debug)(`Extracted to ${extPath}`);
+        const cachePath = yield (0, tool_cache_1.cacheDir)(extPath, 'octo', version);
+        (0, core_1.debug)(`Cached to ${cachePath}`);
+        const exePath = (0, path_1.join)(cachePath, osPlatform === 'win32' ? 'octo.exe' : 'octo');
+        (0, core_1.debug)(`Executable path is ${exePath}`);
+        (0, core_1.info)(`🐙 Octopus CLI ${octopusCliDownload.version} installed successfully`);
         return exePath;
     });
 }
