@@ -1,9 +1,14 @@
-import * as os from 'os'
-import * as path from 'path'
+import {
+  cacheDir,
+  downloadTool,
+  extractTar,
+  extractZip
+} from '@actions/tool-cache'
+import {debug, info, setFailed} from '@actions/core'
 import {Downloads} from './download'
-import * as core from '@actions/core'
-import * as tc from '@actions/tool-cache'
-import * as httpm from '@actions/http-client'
+import {HttpClient} from '@actions/http-client'
+import {join} from 'path'
+import * as os from 'os'
 
 const osPlatform: string = os.platform()
 const platform: string =
@@ -11,7 +16,7 @@ const platform: string =
 const ext: string = osPlatform === 'win32' ? 'zip' : 'tar.gz'
 const octopusTools = `https://download.octopusdeploy.com/octopus-tools`
 const latestUrl = `${octopusTools}/latest.json`
-const http: httpm.HttpClient = new httpm.HttpClient(
+const http: HttpClient = new HttpClient(
   'action-install-octopus-cli',
   undefined,
   {
@@ -36,8 +41,10 @@ const getDownloadUrl = async (version: string): Promise<OctopusCliDownload> => {
       if (downloads !== null) {
         versionToDownload = downloads.latest
       }
-    } catch (error) {
-      core.setFailed(error)
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        setFailed(e)
+      }
     }
   }
 
@@ -45,42 +52,40 @@ const getDownloadUrl = async (version: string): Promise<OctopusCliDownload> => {
 
   const statusCode = (await http.head(downloadUrl)).message.statusCode
   if (statusCode !== 200) {
-    core.setFailed(`✕ Octopus CLI version not found: ${versionToDownload}`)
+    setFailed(`✕ Octopus CLI version not found: ${versionToDownload}`)
     throw new Error(`Octopus CLI version not found: ${versionToDownload}`)
   }
 
-  core.info(`✓ Octopus CLI version found: ${versionToDownload}`)
+  info(`✓ Octopus CLI version found: ${versionToDownload}`)
   return {version: versionToDownload, url: downloadUrl}
 }
 
 export async function installOctopusCli(version: string): Promise<string> {
   const octopusCliDownload = await getDownloadUrl(version)
 
-  core.info(`⬇️ Downloading Octopus CLI ${octopusCliDownload.version}...`)
-  const downloadPath: string = await tc.downloadTool(octopusCliDownload.url)
-  core.debug(`Downloaded to ${downloadPath}`)
+  info(`⬇️ Downloading Octopus CLI ${octopusCliDownload.version}...`)
+  const downloadPath: string = await downloadTool(octopusCliDownload.url)
+  debug(`Downloaded to ${downloadPath}`)
 
-  core.info(`📦 Extracting Octopus CLI ${octopusCliDownload.version}...`)
+  info(`📦 Extracting Octopus CLI ${octopusCliDownload.version}...`)
   let extPath = ''
   if (osPlatform === 'win32') {
-    extPath = await tc.extractZip(downloadPath)
+    extPath = await extractZip(downloadPath)
   } else if (octopusCliDownload.url.endsWith('.gz')) {
-    extPath = await tc.extractTar(downloadPath)
+    extPath = await extractTar(downloadPath)
   }
-  core.debug(`Extracted to ${extPath}`)
+  debug(`Extracted to ${extPath}`)
 
-  const cachePath: string = await tc.cacheDir(extPath, 'octo', version)
-  core.debug(`Cached to ${cachePath}`)
+  const cachePath: string = await cacheDir(extPath, 'octo', version)
+  debug(`Cached to ${cachePath}`)
 
-  const exePath: string = path.join(
+  const exePath: string = join(
     cachePath,
     osPlatform === 'win32' ? 'octo.exe' : 'octo'
   )
-  core.debug(`Executable path is ${exePath}`)
+  debug(`Executable path is ${exePath}`)
 
-  core.info(
-    `🐙 Octopus CLI ${octopusCliDownload.version} installed successfully`
-  )
+  info(`🐙 Octopus CLI ${octopusCliDownload.version} installed successfully`)
 
   return exePath
 }
