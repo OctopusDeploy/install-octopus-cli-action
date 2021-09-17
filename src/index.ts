@@ -1,16 +1,18 @@
-import * as core from '@actions/core'
+import {addPath, debug, getInput, setFailed} from '@actions/core'
 import {dirname} from 'path'
-import * as installer from './octopus-cli'
+import {installOctopusCli} from './octopus-cli'
 
 async function run(): Promise<void> {
   try {
-    const version = core.getInput('version') || 'latest'
-    const octopusCli = await installer.installOctopusCli(version)
+    const version = getInput('version') || 'latest'
+    const octopusCli = await installOctopusCli(version)
     const octopusCliDir = dirname(octopusCli)
-    core.addPath(octopusCliDir)
-    core.debug(`Added ${octopusCliDir} to PATH`)
-  } catch (error) {
-    core.setFailed(error.message)
+    addPath(octopusCliDir)
+    debug(`Added ${octopusCliDir} to PATH`)
+  } catch (e: unknown) {
+    if (e instanceof Error) {
+      setFailed(e)
+    }
   }
 }
 
