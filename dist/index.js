@@ -5245,11 +5245,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.installOctopusCli = void 0;
+const os = __importStar(__nccwpck_require__(87));
 const tool_cache_1 = __nccwpck_require__(784);
 const core_1 = __nccwpck_require__(186);
 const http_client_1 = __nccwpck_require__(925);
 const path_1 = __nccwpck_require__(622);
-const os = __importStar(__nccwpck_require__(87));
 const osPlatform = os.platform();
 const platform = osPlatform === 'win32' ? 'win' : osPlatform === 'darwin' ? 'osx' : 'linux';
 const ext = osPlatform === 'win32' ? 'zip' : 'tar.gz';
