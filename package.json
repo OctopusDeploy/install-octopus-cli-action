@@ -70,5 +70,5 @@
     "postbuild": "ncc build -o dist",
     "test": "jest"
   },
-  "version": "1.1.6"
+  "version": "1.1.7"
 }
