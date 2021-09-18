@@ -1,3 +1,4 @@
+import * as os from 'os'
 import {
   cacheDir,
   downloadTool,
@@ -8,7 +9,6 @@ import {debug, info, setFailed} from '@actions/core'
 import {Downloads} from './download'
 import {HttpClient} from '@actions/http-client'
 import {join} from 'path'
-import * as os from 'os'
 
 const osPlatform: string = os.platform()
 const platform: string =
