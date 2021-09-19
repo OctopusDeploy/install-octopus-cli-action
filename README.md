@@ -47,9 +47,9 @@ steps:
         --apiKey=${{ secrets.apiKey }}
 ```
 
-## Action Inputs
+## 📥 Inputs
 
-The following inputs are optional:
+The following input is optional:
 
 | Name      | Description                                                                      | Default  |
 | :-------- | :------------------------------------------------------------------------------- | :------: |
