@@ -68,7 +68,9 @@ export async function installOctopusCli(version: string): Promise<string> {
   const downloadPath: string = await downloadTool(octopusCliDownload.url)
   debug(`Downloaded to ${downloadPath}`)
 
-  await rename(`${downloadPath}`, `${downloadPath}.${ext}`)
+  rename(`${downloadPath}`, `${downloadPath}.${ext}`, err => {
+    if (err) throw err
+  })
   const downloadPathRenamed = `${downloadPath}.${ext}`
   debug(`Added extension ${downloadPathRenamed}`)
 
