@@ -5250,6 +5250,7 @@ const tool_cache_1 = __nccwpck_require__(784);
 const core_1 = __nccwpck_require__(186);
 const http_client_1 = __nccwpck_require__(925);
 const path_1 = __nccwpck_require__(622);
+const promises_1 = __nccwpck_require__(225);
 const osPlatform = os.platform();
 const platform = osPlatform === 'win32' ? 'win' : osPlatform === 'darwin' ? 'osx' : 'linux';
 const ext = osPlatform === 'win32' ? 'zip' : 'tar.gz';
@@ -5291,13 +5292,16 @@ function installOctopusCli(version) {
         (0, core_1.info)(`⬇️ Downloading Octopus CLI ${octopusCliDownload.version}...`);
         const downloadPath = yield (0, tool_cache_1.downloadTool)(octopusCliDownload.url);
         (0, core_1.debug)(`Downloaded to ${downloadPath}`);
+        yield (0, promises_1.rename)(`${downloadPath}`, `${downloadPath}.${ext}`);
+        const downloadPathRenamed = `${downloadPath}.${ext}`;
+        (0, core_1.debug)(`Added extension ${downloadPathRenamed}`);
         (0, core_1.info)(`📦 Extracting Octopus CLI ${octopusCliDownload.version}...`);
         let extPath = '';
         if (osPlatform === 'win32') {
-            extPath = yield (0, tool_cache_1.extractZip)(downloadPath);
+            extPath = yield (0, tool_cache_1.extractZip)(downloadPathRenamed);
         }
         else if (octopusCliDownload.url.endsWith('.gz')) {
-            extPath = yield (0, tool_cache_1.extractTar)(downloadPath);
+            extPath = yield (0, tool_cache_1.extractTar)(downloadPathRenamed);
         }
         (0, core_1.debug)(`Extracted to ${extPath}`);
         const cachePath = yield (0, tool_cache_1.cacheDir)(extPath, 'octo', version);
@@ -5350,6 +5354,14 @@ module.exports = require("events");
 
 "use strict";
 module.exports = require("fs");
+
+/***/ }),
+
+/***/ 225:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("fs/promises");
 
 /***/ }),
 

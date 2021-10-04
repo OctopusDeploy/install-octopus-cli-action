@@ -9,6 +9,7 @@ import {debug, info, setFailed} from '@actions/core'
 import {Downloads} from './download'
 import {HttpClient} from '@actions/http-client'
 import {join} from 'path'
+import {rename} from 'fs/promises'
 
 const osPlatform: string = os.platform()
 const platform: string =
@@ -67,12 +68,16 @@ export async function installOctopusCli(version: string): Promise<string> {
   const downloadPath: string = await downloadTool(octopusCliDownload.url)
   debug(`Downloaded to ${downloadPath}`)
 
+  await rename(`${downloadPath}`, `${downloadPath}.${ext}`)
+  const downloadPathRenamed = `${downloadPath}.${ext}`
+  debug(`Added extension ${downloadPathRenamed}`)
+
   info(`📦 Extracting Octopus CLI ${octopusCliDownload.version}...`)
   let extPath = ''
   if (osPlatform === 'win32') {
-    extPath = await extractZip(downloadPath)
+    extPath = await extractZip(downloadPathRenamed)
   } else if (octopusCliDownload.url.endsWith('.gz')) {
-    extPath = await extractTar(downloadPath)
+    extPath = await extractTar(downloadPathRenamed)
   }
   debug(`Extracted to ${extPath}`)
 
