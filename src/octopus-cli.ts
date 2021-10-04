@@ -9,7 +9,7 @@ import {debug, info, setFailed} from '@actions/core'
 import {Downloads} from './download'
 import {HttpClient} from '@actions/http-client'
 import {join} from 'path'
-import {rename} from 'fs/promises'
+import {rename} from 'fs'
 
 const osPlatform: string = os.platform()
 const platform: string =
