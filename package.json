@@ -70,5 +70,5 @@
     "postbuild": "ncc build -o dist",
     "test": "jest"
   },
-  "version": "1.1.7-fix"
+  "version": "1.1.7-fix01"
 }
