@@ -4,7 +4,6 @@
     "jest/globals": true,
     "node": true
   },
-  "extends": ["plugin:github/recommended"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": 9,
