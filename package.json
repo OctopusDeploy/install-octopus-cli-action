@@ -14,7 +14,7 @@
     "@types/node": "^16.11.6",
     "@types/tmp": "^0.2.2",
     "@typescript-eslint/eslint-plugin": "^5.2.0",
-    "@typescript-eslint/parser": "^5.2.0",
+    "@typescript-eslint/parser": "^5.8.0",
     "@vercel/ncc": "^0.31.1",
     "eslint": "^8.1.0",
     "eslint-plugin-jest": "^25.2.2",
