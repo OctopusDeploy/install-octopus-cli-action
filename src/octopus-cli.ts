@@ -1,4 +1,5 @@
 import * as os from 'os'
+import {promises as fs} from 'fs'
 import {
   cacheDir,
   downloadTool,
@@ -8,7 +9,8 @@ import {
 import {debug, info, setFailed} from '@actions/core'
 import {Downloads} from './download'
 import {HttpClient} from '@actions/http-client'
-import {join} from 'path'
+import {join, dirname} from 'path'
+import {v4} from 'uuid'
 
 const osPlatform: string = os.platform()
 const platform: string =
@@ -64,7 +66,9 @@ export async function installOctopusCli(version: string): Promise<string> {
   const octopusCliDownload = await getDownloadUrl(version)
 
   info(`⬇️ Downloading Octopus CLI ${octopusCliDownload.version}...`)
-  const downloadPath: string = await downloadTool(octopusCliDownload.url)
+  const dest = join(process.env['RUNNER_TEMP'] || '', `${v4()}.${ext}`)
+  await fs.mkdir(dirname(dest), {recursive: true})
+  const downloadPath: string = await downloadTool(octopusCliDownload.url, dest)
   debug(`Downloaded to ${downloadPath}`)
 
   info(`📦 Extracting Octopus CLI ${octopusCliDownload.version}...`)
