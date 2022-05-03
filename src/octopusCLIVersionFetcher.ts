@@ -3,9 +3,16 @@ import {maxSatisfying, valid} from 'semver'
 export class OctopusCLIVersionFetcher {
   constructor(readonly versions: string[]) {}
 
-  getVersion(versionSpec: string): string | null {
+  getVersion(versionSpec: string): string {
     if (versionSpec === '*') {
-      return maxSatisfying(this.versions, versionSpec)
+      const version = maxSatisfying(this.versions, versionSpec)
+      if (!version) {
+        throw new Error(
+          `A version satisfying '${versionSpec}' could not be found.`
+        )
+      }
+
+      return version
     }
 
     if (valid(versionSpec) === null) {
