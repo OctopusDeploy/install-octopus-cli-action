@@ -4,7 +4,10 @@ import {installOctopusCli} from './octopus-cli'
 
 async function run(): Promise<void> {
   try {
-    const version = getInput('version') || 'latest'
+    var version = getInput('version') || '*'
+    if (version === 'latest') {
+      version = '*'
+    }
     const octopusCli = await installOctopusCli(version)
     const octopusCliDir = dirname(octopusCli)
     addPath(octopusCliDir)
