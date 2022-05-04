@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.2.0](https://github.com/OctopusDeploy/install-octopus-cli-action/compare/v1.1.10...v1.2.0) (2022-05-04)
+
+
+### Features
+
+* added download endpoint retriever ([1b210f2](https://github.com/OctopusDeploy/install-octopus-cli-action/commit/1b210f211beead2b82d9b372dbaee142af740a7a))
+* added Octopus CLI version fetcher ([767b69f](https://github.com/OctopusDeploy/install-octopus-cli-action/commit/767b69f39f167bbd5cbae3efdce9fbdf888070a2))
+* incorporated SemVer support ([eba997b](https://github.com/OctopusDeploy/install-octopus-cli-action/commit/eba997bc80d51e2f57e0dc47f5fcd6fd1959c5d8))
+* replace "latest" with wildcard for SemVer support ([393cafc](https://github.com/OctopusDeploy/install-octopus-cli-action/commit/393cafc5529b2dfddcf19756ff19e2afa1f9cd94))
+
+
+### Bug Fixes
+
+* updated semantics to error on null version ([ed9f79d](https://github.com/OctopusDeploy/install-octopus-cli-action/commit/ed9f79d832c291ca2b4da7faf2f7729ee003323b))
+
 ### [1.1.10](https://github.com/OctopusDeploy/install-octopus-cli-action/compare/v1.1.9...v1.1.10) (2022-03-13)
 
 
