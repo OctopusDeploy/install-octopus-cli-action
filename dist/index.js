@@ -415,6 +415,11 @@ function getIDToken(aud) {
     });
 }
 exports.getIDToken = getIDToken;
+/**
+ * Markdown summary exports
+ */
+var markdown_summary_1 = __nccwpck_require__(8042);
+Object.defineProperty(exports, "markdownSummary", ({ enumerable: true, get: function () { return markdown_summary_1.markdownSummary; } }));
 //# sourceMappingURL=core.js.map
 
 /***/ }),
@@ -465,6 +470,292 @@ function issueCommand(command, message) {
 }
 exports.issueCommand = issueCommand;
 //# sourceMappingURL=file-command.js.map
+
+/***/ }),
+
+/***/ 8042:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.markdownSummary = exports.SUMMARY_DOCS_URL = exports.SUMMARY_ENV_VAR = void 0;
+const os_1 = __nccwpck_require__(2037);
+const fs_1 = __nccwpck_require__(7147);
+const { access, appendFile, writeFile } = fs_1.promises;
+exports.SUMMARY_ENV_VAR = 'GITHUB_STEP_SUMMARY';
+exports.SUMMARY_DOCS_URL = 'https://docs.github.com/actions/using-workflows/workflow-commands-for-github-actions#adding-a-markdown-summary';
+class MarkdownSummary {
+    constructor() {
+        this._buffer = '';
+    }
+    /**
+     * Finds the summary file path from the environment, rejects if env var is not found or file does not exist
+     * Also checks r/w permissions.
+     *
+     * @returns step summary file path
+     */
+    filePath() {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (this._filePath) {
+                return this._filePath;
+            }
+            const pathFromEnv = process.env[exports.SUMMARY_ENV_VAR];
+            if (!pathFromEnv) {
+                throw new Error(`Unable to find environment variable for $${exports.SUMMARY_ENV_VAR}. Check if your runtime environment supports markdown summaries.`);
+            }
+            try {
+                yield access(pathFromEnv, fs_1.constants.R_OK | fs_1.constants.W_OK);
+            }
+            catch (_a) {
+                throw new Error(`Unable to access summary file: '${pathFromEnv}'. Check if the file has correct read/write permissions.`);
+            }
+            this._filePath = pathFromEnv;
+            return this._filePath;
+        });
+    }
+    /**
+     * Wraps content in an HTML tag, adding any HTML attributes
+     *
+     * @param {string} tag HTML tag to wrap
+     * @param {string | null} content content within the tag
+     * @param {[attribute: string]: string} attrs key-value list of HTML attributes to add
+     *
+     * @returns {string} content wrapped in HTML element
+     */
+    wrap(tag, content, attrs = {}) {
+        const htmlAttrs = Object.entries(attrs)
+            .map(([key, value]) => ` ${key}="${value}"`)
+            .join('');
+        if (!content) {
+            return `<${tag}${htmlAttrs}>`;
+        }
+        return `<${tag}${htmlAttrs}>${content}</${tag}>`;
+    }
+    /**
+     * Writes text in the buffer to the summary buffer file and empties buffer. Will append by default.
+     *
+     * @param {SummaryWriteOptions} [options] (optional) options for write operation
+     *
+     * @returns {Promise<MarkdownSummary>} markdown summary instance
+     */
+    write(options) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const overwrite = !!(options === null || options === void 0 ? void 0 : options.overwrite);
+            const filePath = yield this.filePath();
+            const writeFunc = overwrite ? writeFile : appendFile;
+            yield writeFunc(filePath, this._buffer, { encoding: 'utf8' });
+            return this.emptyBuffer();
+        });
+    }
+    /**
+     * Clears the summary buffer and wipes the summary file
+     *
+     * @returns {MarkdownSummary} markdown summary instance
+     */
+    clear() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.emptyBuffer().write({ overwrite: true });
+        });
+    }
+    /**
+     * Returns the current summary buffer as a string
+     *
+     * @returns {string} string of summary buffer
+     */
+    stringify() {
+        return this._buffer;
+    }
+    /**
+     * If the summary buffer is empty
+     *
+     * @returns {boolen} true if the buffer is empty
+     */
+    isEmptyBuffer() {
+        return this._buffer.length === 0;
+    }
+    /**
+     * Resets the summary buffer without writing to summary file
+     *
+     * @returns {MarkdownSummary} markdown summary instance
+     */
+    emptyBuffer() {
+        this._buffer = '';
+        return this;
+    }
+    /**
+     * Adds raw text to the summary buffer
+     *
+     * @param {string} text content to add
+     * @param {boolean} [addEOL=false] (optional) append an EOL to the raw text (default: false)
+     *
+     * @returns {MarkdownSummary} markdown summary instance
+     */
+    addRaw(text, addEOL = false) {
+        this._buffer += text;
+        return addEOL ? this.addEOL() : this;
+    }
+    /**
+     * Adds the operating system-specific end-of-line marker to the buffer
+     *
+     * @returns {MarkdownSummary} markdown summary instance
+     */
+    addEOL() {
+        return this.addRaw(os_1.EOL);
+    }
+    /**
+     * Adds an HTML codeblock to the summary buffer
+     *
+     * @param {string} code content to render within fenced code block
+     * @param {string} lang (optional) language to syntax highlight code
+     *
+     * @returns {MarkdownSummary} markdown summary instance
+     */
+    addCodeBlock(code, lang) {
+        const attrs = Object.assign({}, (lang && { lang }));
+        const element = this.wrap('pre', this.wrap('code', code), attrs);
+        return this.addRaw(element).addEOL();
+    }
+    /**
+     * Adds an HTML list to the summary buffer
+     *
+     * @param {string[]} items list of items to render
+     * @param {boolean} [ordered=false] (optional) if the rendered list should be ordered or not (default: false)
+     *
+     * @returns {MarkdownSummary} markdown summary instance
+     */
+    addList(items, ordered = false) {
+        const tag = ordered ? 'ol' : 'ul';
+        const listItems = items.map(item => this.wrap('li', item)).join('');
+        const element = this.wrap(tag, listItems);
+        return this.addRaw(element).addEOL();
+    }
+    /**
+     * Adds an HTML table to the summary buffer
+     *
+     * @param {SummaryTableCell[]} rows table rows
+     *
+     * @returns {MarkdownSummary} markdown summary instance
+     */
+    addTable(rows) {
+        const tableBody = rows
+            .map(row => {
+            const cells = row
+                .map(cell => {
+                if (typeof cell === 'string') {
+                    return this.wrap('td', cell);
+                }
+                const { header, data, colspan, rowspan } = cell;
+                const tag = header ? 'th' : 'td';
+                const attrs = Object.assign(Object.assign({}, (colspan && { colspan })), (rowspan && { rowspan }));
+                return this.wrap(tag, data, attrs);
+            })
+                .join('');
+            return this.wrap('tr', cells);
+        })
+            .join('');
+        const element = this.wrap('table', tableBody);
+        return this.addRaw(element).addEOL();
+    }
+    /**
+     * Adds a collapsable HTML details element to the summary buffer
+     *
+     * @param {string} label text for the closed state
+     * @param {string} content collapsable content
+     *
+     * @returns {MarkdownSummary} markdown summary instance
+     */
+    addDetails(label, content) {
+        const element = this.wrap('details', this.wrap('summary', label) + content);
+        return this.addRaw(element).addEOL();
+    }
+    /**
+     * Adds an HTML image tag to the summary buffer
+     *
+     * @param {string} src path to the image you to embed
+     * @param {string} alt text description of the image
+     * @param {SummaryImageOptions} options (optional) addition image attributes
+     *
+     * @returns {MarkdownSummary} markdown summary instance
+     */
+    addImage(src, alt, options) {
+        const { width, height } = options || {};
+        const attrs = Object.assign(Object.assign({}, (width && { width })), (height && { height }));
+        const element = this.wrap('img', null, Object.assign({ src, alt }, attrs));
+        return this.addRaw(element).addEOL();
+    }
+    /**
+     * Adds an HTML section heading element
+     *
+     * @param {string} text heading text
+     * @param {number | string} [level=1] (optional) the heading level, default: 1
+     *
+     * @returns {MarkdownSummary} markdown summary instance
+     */
+    addHeading(text, level) {
+        const tag = `h${level}`;
+        const allowedTag = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(tag)
+            ? tag
+            : 'h1';
+        const element = this.wrap(allowedTag, text);
+        return this.addRaw(element).addEOL();
+    }
+    /**
+     * Adds an HTML thematic break (<hr>) to the summary buffer
+     *
+     * @returns {MarkdownSummary} markdown summary instance
+     */
+    addSeparator() {
+        const element = this.wrap('hr', null);
+        return this.addRaw(element).addEOL();
+    }
+    /**
+     * Adds an HTML line break (<br>) to the summary buffer
+     *
+     * @returns {MarkdownSummary} markdown summary instance
+     */
+    addBreak() {
+        const element = this.wrap('br', null);
+        return this.addRaw(element).addEOL();
+    }
+    /**
+     * Adds an HTML blockquote to the summary buffer
+     *
+     * @param {string} text quote text
+     * @param {string} cite (optional) citation url
+     *
+     * @returns {MarkdownSummary} markdown summary instance
+     */
+    addQuote(text, cite) {
+        const attrs = Object.assign({}, (cite && { cite }));
+        const element = this.wrap('blockquote', text, attrs);
+        return this.addRaw(element).addEOL();
+    }
+    /**
+     * Adds an HTML anchor tag to the summary buffer
+     *
+     * @param {string} text link text/content
+     * @param {string} href hyperlink
+     *
+     * @returns {MarkdownSummary} markdown summary instance
+     */
+    addLink(text, href) {
+        const element = this.wrap('a', text, { href });
+        return this.addRaw(element).addEOL();
+    }
+}
+// singleton export
+exports.markdownSummary = new MarkdownSummary();
+//# sourceMappingURL=markdown-summary.js.map
 
 /***/ }),
 
@@ -6073,7 +6364,10 @@ const octopus_cli_1 = __nccwpck_require__(5263);
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const version = (0, core_1.getInput)('version') || 'latest';
+            var version = (0, core_1.getInput)('version') || '*';
+            if (version === 'latest') {
+                version = '*';
+            }
             const octopusCli = yield (0, octopus_cli_1.installOctopusCli)(version);
             const octopusCliDir = (0, path_1.dirname)(octopusCli);
             (0, core_1.addPath)(octopusCliDir);
@@ -6137,59 +6431,95 @@ const core_1 = __nccwpck_require__(2186);
 const http_client_1 = __nccwpck_require__(9925);
 const path_1 = __nccwpck_require__(1017);
 const uuid_1 = __nccwpck_require__(5840);
+const octopusCLIVersionFetcher_1 = __nccwpck_require__(6607);
 const osPlatform = os.platform();
-const platform = osPlatform === 'win32' ? 'win' : osPlatform === 'darwin' ? 'osx' : 'linux';
 const ext = osPlatform === 'win32' ? 'zip' : 'tar.gz';
-const octopusTools = `https://download.octopusdeploy.com/octopus-tools`;
-const latestUrl = `${octopusTools}/latest.json`;
+const baseUrl = `https://g.octopushq.com/`;
+const versionsUrl = `${baseUrl}/OctopusCLIVersions`;
+const latestToolsUrl = `${baseUrl}/LatestTools`;
 const http = new http_client_1.HttpClient('action-install-octopus-cli', undefined, {
     keepAlive: false
 });
-const getLatest = () => __awaiter(void 0, void 0, void 0, function* () {
-    return (yield http.getJson(latestUrl)).result;
+const getVersions = () => __awaiter(void 0, void 0, void 0, function* () {
+    return (yield http.getJson(versionsUrl)).result;
 });
-const getDownloadUrl = (version) => __awaiter(void 0, void 0, void 0, function* () {
-    let versionToDownload = version;
-    if (version === 'latest') {
-        try {
-            const downloads = yield getLatest();
-            if (downloads !== null) {
-                versionToDownload = downloads.latest;
-            }
-        }
-        catch (e) {
-            if (e instanceof Error) {
-                (0, core_1.setFailed)(e);
-            }
+const getDownloadUrl = (versionSpec) => __awaiter(void 0, void 0, void 0, function* () {
+    if (versionSpec === 'latest') {
+        versionSpec = '*';
+    }
+    const versionsResponse = yield getVersions();
+    if (versionsResponse === null) {
+        (0, core_1.setFailed)(`✕ Unable to get versions...`);
+        throw new Error(`✕ Unable to get versions...`);
+    }
+    let version = versionSpec;
+    try {
+        version = new octopusCLIVersionFetcher_1.OctopusCLIVersionFetcher(versionsResponse.versions).getVersion(versionSpec);
+        (0, core_1.info)(`Latest version: ${version}`);
+    }
+    catch (e) {
+        if (e instanceof Error) {
+            (0, core_1.setFailed)(e);
         }
     }
-    const downloadUrl = `${octopusTools}/${versionToDownload}/OctopusTools.${versionToDownload}.${platform}-x64.${ext}`;
+    if (version === null) {
+        (0, core_1.setFailed)(`✕ The version specified (${version}) is not available to download.`);
+        throw new Error(`✕ The version specified (${version}) is not available to download.`);
+    }
+    (0, core_1.debug)(`Attempting to find Octopus CLI version ${version}`);
+    const latestToolsResponse = yield http.getJson(latestToolsUrl);
+    if (latestToolsResponse.result === null ||
+        latestToolsResponse.result === undefined) {
+        throw Error(`Failed to resolve Octopus CLI version ${version}. Endpoint returned ${latestToolsResponse.statusCode} status code.`);
+    }
+    let platform = 'linux';
+    switch (osPlatform) {
+        case 'darwin':
+            platform = 'osx';
+            break;
+        case 'win32':
+            platform = 'win';
+            break;
+    }
+    let downloadUrl;
+    for (const download of latestToolsResponse.result.downloads) {
+        if (download.platform === platform) {
+            const result = Object.assign(Object.assign({}, download), { version });
+            downloadUrl = applyTemplate(result, download.template);
+        }
+    }
+    if (downloadUrl === undefined || downloadUrl === null) {
+        throw Error(`Failed to resolve endpoint URL to download: ${downloadUrl}`);
+    }
     const statusCode = (yield http.head(downloadUrl)).message.statusCode;
     if (statusCode !== 200) {
-        (0, core_1.setFailed)(`✕ Octopus CLI version not found: ${versionToDownload}`);
-        throw new Error(`Octopus CLI version not found: ${versionToDownload}`);
+        (0, core_1.setFailed)(`✕ Octopus CLI version not found: ${version}`);
+        throw new Error(`Octopus CLI version not found: ${version}`);
     }
-    (0, core_1.info)(`✓ Octopus CLI version found: ${versionToDownload}`);
-    return { version: versionToDownload, url: downloadUrl };
+    (0, core_1.info)(`✓ Octopus CLI version found: ${version}`);
+    return { downloadUrl, version };
 });
+function applyTemplate(dictionary, template) {
+    return Object.keys(dictionary).reduce((result, key) => result.replace(new RegExp(`{${key}}`, 'g'), dictionary[key] ? String(dictionary[key]) : ''), template);
+}
 function installOctopusCli(version) {
     return __awaiter(this, void 0, void 0, function* () {
         const octopusCliDownload = yield getDownloadUrl(version);
         (0, core_1.info)(`⬇️ Downloading Octopus CLI ${octopusCliDownload.version}...`);
         const dest = (0, path_1.join)(process.env['RUNNER_TEMP'] || '', `${(0, uuid_1.v4)()}.${ext}`);
         yield fs_1.promises.mkdir((0, path_1.dirname)(dest), { recursive: true });
-        const downloadPath = yield (0, tool_cache_1.downloadTool)(octopusCliDownload.url, dest);
+        const downloadPath = yield (0, tool_cache_1.downloadTool)(octopusCliDownload.downloadUrl, dest);
         (0, core_1.debug)(`Downloaded to ${downloadPath}`);
         (0, core_1.info)(`📦 Extracting Octopus CLI ${octopusCliDownload.version}...`);
         let extPath = '';
         if (osPlatform === 'win32') {
             extPath = yield (0, tool_cache_1.extractZip)(downloadPath);
         }
-        else if (octopusCliDownload.url.endsWith('.gz')) {
+        else if (octopusCliDownload.downloadUrl.endsWith('.gz')) {
             extPath = yield (0, tool_cache_1.extractTar)(downloadPath);
         }
         (0, core_1.debug)(`Extracted to ${extPath}`);
-        const cachePath = yield (0, tool_cache_1.cacheDir)(extPath, 'octo', version);
+        const cachePath = yield (0, tool_cache_1.cacheDir)(extPath, 'octo', octopusCliDownload.version);
         (0, core_1.debug)(`Cached to ${cachePath}`);
         const exePath = (0, path_1.join)(cachePath, osPlatform === 'win32' ? 'octo.exe' : 'octo');
         (0, core_1.debug)(`Executable path is ${exePath}`);
@@ -6198,6 +6528,79 @@ function installOctopusCli(version) {
     });
 }
 exports.installOctopusCli = installOctopusCli;
+
+
+/***/ }),
+
+/***/ 6607:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.OctopusCLIVersionFetcher = void 0;
+const semver_1 = __nccwpck_require__(5911);
+class OctopusCLIVersionFetcher {
+    constructor(versions) {
+        this.versions = versions;
+    }
+    getVersion(versionSpec) {
+        if (versionSpec === '*') {
+            const version = (0, semver_1.maxSatisfying)(this.versions, versionSpec);
+            if (!version) {
+                throw new Error(`A version satisfying '${versionSpec}' could not be found.`);
+            }
+            return version;
+        }
+        if ((0, semver_1.valid)(versionSpec) === null) {
+            const parts = versionSpec.split('.');
+            if (parts.length > 3) {
+                throw new Error(`The '${versionSpec}' is an invalid version, a version needs to be a maximum of three parts.`);
+            }
+            if (parts.length === 1) {
+                const majorVersion = parts[0];
+                if (Number.isNaN(Number.parseInt(majorVersion))) {
+                    throw new Error(`The '${versionSpec}' version needs to specify a number or '*' for its major part.`);
+                }
+            }
+            if (parts.length === 2) {
+                const majorVersion = parts[0];
+                const minorVersion = parts[1];
+                // the major version number must be a number
+                if (Number.isNaN(Number.parseInt(majorVersion))) {
+                    throw new Error(`The '${versionSpec}' version needs to specify a number for its major part.`);
+                }
+                if (minorVersion !== '*' &&
+                    Number.isNaN(Number.parseInt(minorVersion))) {
+                    throw new Error(`The '${versionSpec}' version needs to specify a number or '*' for its minor part.`);
+                }
+            }
+            if (parts.length === 3) {
+                const majorVersion = parts[0];
+                const minorVersion = parts[1];
+                const patchVersion = parts[2];
+                // the major version number must be a number
+                if (Number.isNaN(Number.parseInt(majorVersion))) {
+                    throw new Error(`The '${versionSpec}' version needs to specify a number for its major part.`);
+                }
+                // the minor version number must be a number
+                if (Number.isNaN(Number.parseInt(minorVersion))) {
+                    throw new Error(`The '${versionSpec}' version needs to specify a number for its minor part.`);
+                }
+                if (patchVersion !== '*' &&
+                    Number.isNaN(Number.parseInt(patchVersion))) {
+                    throw new Error(`The '${versionSpec}' version needs to specify a number or '*' for its patch part.`);
+                }
+            }
+        }
+        const version = (0, semver_1.maxSatisfying)(this.versions, versionSpec);
+        if (!version) {
+            throw new Error(`A version satisfying '${versionSpec}' could not be found.`);
+        }
+        return version;
+    }
+}
+exports.OctopusCLIVersionFetcher = OctopusCLIVersionFetcher;
 
 
 /***/ }),
