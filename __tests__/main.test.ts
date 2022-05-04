@@ -27,4 +27,10 @@ describe('installer', () => {
       expect(data).toContain(path.sep + 'octo' + path.sep)
     })
   }, 100000)
+
+  test('acquires latest version of Octopus CLI', () => {
+    return installOctopusCli('*').then(data => {
+      expect(data).toContain(path.sep + 'octo' + path.sep)
+    })
+  }, 100000)
 })
