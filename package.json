@@ -19,7 +19,7 @@
     "@typescript-eslint/eslint-plugin": "^5.22.0",
     "@typescript-eslint/parser": "^5.22.0",
     "@vercel/ncc": "^0.33.4",
-    "eslint": "^8.14.0",
+    "eslint": "^8.16.0",
     "eslint-plugin-jest": "^26.1.5",
     "jest": "^28.0.3",
     "jest-circus": "^28.0.3",
