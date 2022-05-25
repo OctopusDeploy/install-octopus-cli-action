@@ -58,7 +58,7 @@
     "github-actions"
   ],
   "license": "Apache-2.0",
-  "main": "out/index.js",
+  "main": "dist/main.js",
   "name": "install-octopus-cli-action",
   "repository": {
     "type": "git",
@@ -71,7 +71,7 @@
     "format-check": "prettier --check **/*.ts",
     "prebuild": "eslint src/**/*.ts",
     "postbuild": "ncc build -o dist",
-    "test": "jest"
+    "test": "jest --passWithNoTests"
   },
   "version": "1.2.0"
 }
