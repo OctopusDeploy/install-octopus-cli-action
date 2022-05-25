@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/OctopusDeploy/install-octopus-cli-action/compare/v1.2.0...v1.3.0) (2022-05-25)
+
+
+### Features
+
+* reordered imports and updated info message ([63a0c2e](https://github.com/OctopusDeploy/install-octopus-cli-action/commit/63a0c2e4b1269e98cafb376394a3a3e35568ef6a))
+
 ## [1.2.0](https://github.com/OctopusDeploy/install-octopus-cli-action/compare/v1.1.10...v1.2.0) (2022-05-04)
 
 
