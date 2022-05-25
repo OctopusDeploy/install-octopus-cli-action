@@ -1,14 +1,14 @@
-import * as os from 'os'
-import {promises as fs} from 'fs'
+import {debug, info, setFailed} from '@actions/core'
+import {HttpClient} from '@actions/http-client'
 import {
   cacheDir,
   downloadTool,
   extractTar,
   extractZip
 } from '@actions/tool-cache'
-import {debug, info, setFailed} from '@actions/core'
-import {HttpClient} from '@actions/http-client'
-import {join, dirname} from 'path'
+import {promises as fs} from 'fs'
+import * as os from 'os'
+import {dirname, join} from 'path'
 import {v4} from 'uuid'
 import {OctopusCLIVersionFetcher} from './octopusCLIVersionFetcher'
 
@@ -74,7 +74,7 @@ const getDownloadUrl = async (versionSpec: string): Promise<Endpoint> => {
     version = new OctopusCLIVersionFetcher(
       versionsResponse.versions
     ).getVersion(versionSpec)
-    info(`Latest version: ${version}`)
+    info(`Latest version available: ${version}`)
   } catch (e: unknown) {
     if (e instanceof Error) {
       setFailed(e)
