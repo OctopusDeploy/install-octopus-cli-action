@@ -1,7 +1,7 @@
-import {OctopusCLIVersionFetcher} from './octopusCLIVersionFetcher'
-import * as os from 'os'
-import {HttpClient} from '@actions/http-client'
 import {debug} from '@actions/core'
+import {HttpClient} from '@actions/http-client'
+import * as os from 'os'
+import {OctopusCLIVersionFetcher} from './octopusCLIVersionFetcher'
 
 interface LatestResponse {
   latest: string
@@ -54,7 +54,7 @@ export class DownloadEndpointRetriever {
       versionsResponse.result === undefined
     ) {
       throw Error(
-        `Failed to resolve Octopus CLI versions. Endpoint returned ${versionsResponse.statusCode} status code.`
+        `Failed to resolve Octopus CLI versions; endpoint returned ${versionsResponse.statusCode} status code.`
       )
     }
 
@@ -70,7 +70,7 @@ export class DownloadEndpointRetriever {
 
     if (response.result === null || response.result === undefined) {
       throw Error(
-        `Failed to resolve Octopus CLI version ${version}. Endpoint returned ${response.statusCode} status code.`
+        `Failed to resolve Octopus CLI version ${version}; endpoint returned ${response.statusCode} status code.`
       )
     }
 
