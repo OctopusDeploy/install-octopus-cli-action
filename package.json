@@ -23,6 +23,7 @@
     "eslint-plugin-jest": "^26.2.2",
     "jest": "^28.1.0",
     "jest-circus": "^28.1.0",
+    "jest-junit": "^14.0.0",
     "js-yaml": "^4.1.0",
     "prettier": "2.6.2",
     "tmp": "^0.2.1",
@@ -79,8 +80,8 @@
     "format": "prettier --write **/*.ts",
     "format-check": "prettier --check **/*.ts",
     "prebuild": "eslint src/**/*.ts",
-    "postbuild": "ncc build -o dist",
-    "test": "jest --passWithNoTests"
+    "postbuild": "ncc build out/main.js -o dist",
+    "test": "jest --ci --reporters=default --reporters=jest-junit --passWithNoTests"
   },
   "version": "1.3.0"
 }

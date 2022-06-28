@@ -102,3 +102,4 @@ lib/**/*
 *.pdb
 octo
 out
+reports/
