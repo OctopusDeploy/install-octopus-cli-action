@@ -1,0 +1,32 @@
+on:
+  push:
+    branches:
+      - release-please--**
+name: "Build & Push Dist"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.INTEGRATIONS_FNM_BOT_TOKEN }}
+      - name: install
+        run: npm ci
+      - name: build
+        run: npm run build
+      - name: update README
+        run: |-
+          MAJOR_VERSION=$(cat package.json \
+            | grep version \
+            | head -1 \
+            | awk -F: '{ print $2 }' \
+            | sed 's/[", ]//g' \
+            | awk -F. '{ print $1 }')
+          sed -i "s/\(uses: OctopusDeploy\/install-octopus-cli-action@\).*/\1v${MAJOR_VERSION}/g" README.md
+      - name: commit
+        run: |-
+          git config --global user.name "team-integrations-fnm-bot"
+          git config user.email 'integrationsfnmbot@octopus.com'
+          git add README.md
+          git add dist/
+          git diff-index --quiet HEAD || (git commit -m "chore: build dist and update README" && git push origin)
