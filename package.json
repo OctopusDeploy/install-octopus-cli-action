@@ -18,7 +18,7 @@
     "@types/uuid": "^8.3.4",
     "@typescript-eslint/eslint-plugin": "^5.26.0",
     "@typescript-eslint/parser": "^5.26.0",
-    "@vercel/ncc": "^0.33.4",
+    "@vercel/ncc": "^0.34.0",
     "eslint": "^8.16.0",
     "eslint-plugin-jest": "^26.2.2",
     "jest": "^28.1.0",
