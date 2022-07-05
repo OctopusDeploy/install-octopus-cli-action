@@ -53,3 +53,7 @@ The following input is optional:
 | Name      | Description                                                                      |   Default    |
 | :-------- | :------------------------------------------------------------------------------- | :----------: |
 | `version` | The version number of the Octopus CLI to download and install (i.e. `7.4.3190`). | `*` (latest) |
+
+## 🤝 Contributions
+
+Contributions are welcome! :heart: Please read our [Contributing Guide](.github/CONTRIBUTING.md) for information about how to get involved in this project.
