@@ -11,7 +11,7 @@
   },
   "description": "GitHub Action to Install the Octopus CLI",
   "devDependencies": {
-    "@types/jest": "^28.1.4",
+    "@types/jest": "^28.1.5",
     "@types/node": "^18.0.3",
     "@types/semver": "^7.3.10",
     "@types/tmp": "^0.2.3",
