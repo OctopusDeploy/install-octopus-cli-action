@@ -6,7 +6,7 @@ This guide provides an overview of the contribution workflow from opening an iss
 
 ## Getting Started
 
-This project is built, tested, and released by workflows defined in GitHub Actions (see [Actions](../actions/) for more information). Release management is controlled through [Release-Please](https://github.com/googleapis/release-please).
+This project is built, tested, and released by workflows defined in GitHub Actions (see [Actions](/actions) for more information). Release management is controlled through [Release-Please](https://github.com/googleapis/release-please).
 
 ### Issues
 
@@ -18,11 +18,11 @@ Use the Issues feature in GitHub to document bugs and/or features related to thi
 
 #### Resolve an Issue
 
-Issues will be triaged and modified (if necessary) by the [CODEOWNERS](../CODEOWNERS) for this project. It is important to associate pull requests with issues by referencing their issue ID in the commit message. That way, issues will be able to document changes and/or fixes. This will assist visitors when reading through issue lists.
+Issues will be triaged and modified (if necessary) by the [CODEOWNERS](CODEOWNERS) for this project. It is important to associate pull requests with issues by referencing their issue ID in the commit message. That way, issues will be able to document changes and/or fixes. This will assist visitors when reading through issue lists.
 
 ### Commit Your Change(s) through Pull Requests
 
-This project employs [branch protection](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/defining-the-mergeability-of-pull-requests/managing-a-branch-protection-rule); the `main` branch is protected. Therefore, your changes MUST be committed to a branch and submitted as a pull request. Also, this project requires the use of [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) for all commit messages. Using Conventional Commits enables this project to autogenerate its [CHANGELOG.md](../CHANGELOG.md) and release notes.
+This project employs [branch protection](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/defining-the-mergeability-of-pull-requests/managing-a-branch-protection-rule); the `main` branch is protected. Therefore, your changes MUST be committed to a branch and submitted as a pull request. Also, this project requires the use of [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) for all commit messages. Using Conventional Commits enables this project to autogenerate its [CHANGELOG.md](CHANGELOG.md) and release notes.
 
 ### Your Pull Request is Merged! Now What?
 
