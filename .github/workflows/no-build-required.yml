@@ -1,7 +1,7 @@
 name: 'build-test'
 on:
   pull_request:
-    path:
+    paths:
       - '**.md'
 jobs:
   test:
