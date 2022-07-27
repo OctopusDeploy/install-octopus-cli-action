@@ -1,6 +1,9 @@
 name: 'build-test'
 on:
   push:
+    paths-ignore:
+      - '**/*.md'
+  
   schedule:
     # Daily 5am australian/brisbane time (7pm UTC)
     - cron: '0 19 * * *'
