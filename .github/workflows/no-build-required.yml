@@ -1,0 +1,10 @@
+name: 'build-test'
+on:
+  pull_request:
+    path:
+      - '**.md'
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: 'echo "No build required" '
