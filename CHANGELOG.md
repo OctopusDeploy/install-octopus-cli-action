@@ -5,6 +5,7 @@
 
 ### Features
 
+* bump to node16 ([1c10efb](https://github.com/OctopusDeploy/install-octopus-cli-action/commit/1c10efbb7a40523348339e6c088df19fba0d92b8))
 * added download endpoint retriever ([1b210f2](https://github.com/OctopusDeploy/install-octopus-cli-action/commit/1b210f211beead2b82d9b372dbaee142af740a7a))
 * added Octopus CLI version fetcher ([767b69f](https://github.com/OctopusDeploy/install-octopus-cli-action/commit/767b69f39f167bbd5cbae3efdce9fbdf888070a2))
 * bump dependencies ([d33e561](https://github.com/OctopusDeploy/install-octopus-cli-action/commit/d33e56128dc530bb774c2ecf51b97b7580c6a667))
