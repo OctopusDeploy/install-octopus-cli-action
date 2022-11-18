@@ -41,4 +41,4 @@ jobs:
         with:
           version: latest
 
-      - run: octo version
+      - run: octopus version
