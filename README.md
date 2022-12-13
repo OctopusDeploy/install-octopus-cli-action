@@ -19,7 +19,7 @@ To install the latest version (i.e. `*` or `latest`) of the Octopus CLI:
 
 ```yml
 - name: Install Octopus CLI 🐙
-  uses: OctopusDeploy/install-octopus-cli-action@v1
+  uses: OctopusDeploy/install-octopus-cli-action@v3
   with:
     version: '*'
 ```
@@ -28,7 +28,7 @@ To install a specific version of the Octopus CLI:
 
 ```yml
 - name: Install Octopus CLI 🐙
-  uses: OctopusDeploy/install-octopus-cli-action@v1
+  uses: OctopusDeploy/install-octopus-cli-action@v3
   with:
     version: 9.0.0
 ```
@@ -37,7 +37,7 @@ Here's an example of invoking the `list-deployments` command after installing th
 
 ```yml
 - name: Install Octopus CLI 🐙
-  uses: OctopusDeploy/install-octopus-cli-action@v1
+  uses: OctopusDeploy/install-octopus-cli-action@v3
   with:
     version: 9.0.0
 - name: list-octopusdeploy-deployments
