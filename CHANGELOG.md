@@ -1,5 +1,26 @@
 # Changelog
 
+## [3.0.0](https://github.com/OctopusDeploy/install-octopus-cli-action/compare/v1.2.1...v3.0.0) (2022-12-13)
+
+
+### ⚠ BREAKING CHANGES
+
+* Update action to install our new go cli
+
+### Features
+
+* Update action to install our new go cli ([5eb509a](https://github.com/OctopusDeploy/install-octopus-cli-action/commit/5eb509aa6f61be71716c9df9f62821b2f533b996))
+
+
+### Bug Fixes
+
+* updated dependencies ([820f71c](https://github.com/OctopusDeploy/install-octopus-cli-action/commit/820f71c8fb1246d0c0b0575100700102c715b18b))
+
+
+### Miscellaneous Chores
+
+* release 3.0.0 ([#384](https://github.com/OctopusDeploy/install-octopus-cli-action/issues/384)) ([3fcc9b1](https://github.com/OctopusDeploy/install-octopus-cli-action/commit/3fcc9b1cdb0067f02416b05b346783d412e65950))
+
 ## [1.2.1](https://github.com/OctopusDeploy/install-octopus-cli-action/compare/v1.3.0...v1.2.1) (2022-11-04)
 
 
