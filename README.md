@@ -13,6 +13,10 @@ The Octopus CLI is a command line tool that builds on top of the [Octopus REST A
 - Download, install, and cache Octopus CLI to be used in workflows
 - Supports SemVer-based version numbers with wildcards (i.e. `0.8.*`) but not ranges
 
+## Migration Guide(s)
+
+Please refer to the [migration guide](migration-guide.md) if moving between major versions of this action.
+
 ## Examples
 
 To install the latest version (i.e. `*` or `latest`) of the Octopus CLI:
@@ -53,9 +57,9 @@ Here's an example of invoking the `account list` command after installing the Oc
 
 The following input is optional:
 
-| Name      | Description                                                                      |   Default    |
-| :-------- | :------------------------------------------------------------------------------- | :----------: |
-| `version` | The version number of the Octopus CLI to download and install (i.e. `0.8.0`).    | `*` (latest) |
+| Name      | Description                                                                                                                            |   Default    |
+| :-------- | :------------------------------------------------------------------------------------------------------------------------------------- | :----------: |
+| `version` | The [release](https://github.com/OctopusDeploy/cli/releases) version number of the Octopus CLI to download and install (e.g. `0.8.0`). | `*` (latest) |
 
 ## 🤝 Contributions
 
