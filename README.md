@@ -57,9 +57,9 @@ Here's an example of invoking the `account list` command after installing the Oc
 
 The following input is optional:
 
-| Name      | Description                                                                   |   Default    |
-| :-------- | :---------------------------------------------------------------------------- | :----------: |
-| `version` | The version number of the Octopus CLI to download and install (i.e. `0.8.0`). | `*` (latest) |
+| Name      | Description                                                                                                                            |   Default    |
+| :-------- | :------------------------------------------------------------------------------------------------------------------------------------- | :----------: |
+| `version` | The [release](https://github.com/OctopusDeploy/cli/releases) version number of the Octopus CLI to download and install (e.g. `0.8.0`). | `*` (latest) |
 
 ## 🤝 Contributions
 
