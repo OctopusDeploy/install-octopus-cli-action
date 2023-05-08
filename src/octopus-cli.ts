@@ -15,7 +15,7 @@ import {OctopusCLIVersionFetcher} from './octopusCLIVersionFetcher'
 const osPlatform: string = os.platform()
 const osArch: string = os.arch()
 const ext: string = osPlatform === 'win32' ? 'zip' : 'tar.gz'
-const releasesUrl = `https://api.github.com/repos/OctopusDeploy/cli/releases`
+const releasesUrl = `https://raw.githubusercontent.com/OctopusDeploy/cli/main/releases.json`
 const http: HttpClient = new HttpClient(
   'action-install-octopus-cli',
   undefined,
