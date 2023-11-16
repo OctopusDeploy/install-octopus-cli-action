@@ -7312,7 +7312,7 @@ const octopusCLIVersionFetcher_1 = __nccwpck_require__(6607);
 const osPlatform = os.platform();
 const osArch = os.arch();
 const ext = osPlatform === 'win32' ? 'zip' : 'tar.gz';
-const releasesUrl = `https://api.github.com/repos/OctopusDeploy/cli/releases`;
+const releasesUrl = `https://raw.githubusercontent.com/OctopusDeploy/cli/main/releases.json`;
 const http = new http_client_1.HttpClient('action-install-octopus-cli', undefined, {
     keepAlive: false
 });
