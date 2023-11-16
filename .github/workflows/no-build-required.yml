@@ -3,6 +3,8 @@ on:
   pull_request:
     paths:
       - '**.md'
+        
+    workflow_dispatch:      
 jobs:
   test:
     runs-on: ubuntu-latest
