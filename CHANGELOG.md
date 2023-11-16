@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.1](https://github.com/OctopusDeploy/install-octopus-cli-action/compare/v3.0.0...v3.0.1) (2023-11-16)
+
+
+### Miscellaneous Chores
+
+* release 3.0.1 ([788b620](https://github.com/OctopusDeploy/install-octopus-cli-action/commit/788b62013ecc14c5ee335caf480d3fe86b1b3931))
+
 ## [3.0.0](https://github.com/OctopusDeploy/install-octopus-cli-action/compare/v1.2.1...v3.0.0) (2022-12-13)
 
 
