@@ -1,0 +1,28 @@
+name: Renovate
+on:
+  schedule:
+    - cron: "0 2 * * *"
+
+  workflow_dispatch:
+    inputs:
+      dryRun:
+        type: boolean
+        required: false
+        default: false
+        description: Dry run (don't create PRs)
+
+jobs:
+  renovate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Self-hosted Renovate
+        uses: renovatebot/github-action@0dbf03d3f50da30b8e523f51b628d2743c4934dc # v39.0.6
+        with:
+          configurationFile: renovate-config.js
+          token: ${{ secrets.RENOVATE_GITHUB_TOKEN }}
+        env:
+          LOG_LEVEL: debug
+          RENOVATE_DRY_RUN: ${{ inputs.dryRun && 'full' || null }}
