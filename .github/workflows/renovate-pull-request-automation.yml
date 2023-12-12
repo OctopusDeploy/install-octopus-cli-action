@@ -1,0 +1,26 @@
+name: Renovate Pull Request Approval
+
+on:
+  pull_request:
+    branches: [main]
+
+# Increase the access for the GITHUB_TOKEN
+permissions:
+  # This Allows the GITHUB_TOKEN to approve pull requests
+  pull-requests: write
+  # This Allows the GITHUB_TOKEN to auto merge pull requests
+  contents: write
+
+env:
+  PR_URL: ${{github.event.pull_request.html_url}}
+  # By default, GitHub Actions workflows triggered by renovate get a GITHUB_TOKEN with read-only permissions.
+  GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+jobs:
+  approve_renovate_pull_requests:
+    runs-on: ubuntu-latest
+    name: Approve renovate pull request
+    if: ${{ (github.actor == 'Octobob') && (contains(github.head_ref, 'renovate')) }}
+    steps:
+      - name: Approve a renovate created PR
+        run: gh pr review --approve "$PR_URL"
