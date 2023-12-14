@@ -1,5 +1,17 @@
 # Changelog
 
+## [3.1.0](https://github.com/OctopusDeploy/install-octopus-cli-action/compare/v3.0.1...v3.1.0) (2023-12-14)
+
+
+### Features
+
+* Upgrade to node 20 ([#404](https://github.com/OctopusDeploy/install-octopus-cli-action/issues/404)) ([1d85b40](https://github.com/OctopusDeploy/install-octopus-cli-action/commit/1d85b409706419cab36c8d310ef7eda9283fcf7d))
+
+
+### Bug Fixes
+
+* **deps:** pin dependencies ([58213b8](https://github.com/OctopusDeploy/install-octopus-cli-action/commit/58213b8a3d0aad78cc6ee51894a383019ddcdcd6))
+
 ## [3.0.1](https://github.com/OctopusDeploy/install-octopus-cli-action/compare/v3.0.0...v3.0.1) (2023-11-16)
 
 
