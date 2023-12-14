@@ -14,7 +14,7 @@
     "@types/jest": "29.4.0",
     "@types/node": "20.10.4",
     "@types/semver": "7.3.13",
-    "@types/tmp": "0.2.3",
+    "@types/tmp": "0.2.6",
     "@types/uuid": "9.0.0",
     "@typescript-eslint/eslint-plugin": "5.49.0",
     "@typescript-eslint/parser": "5.49.0",
