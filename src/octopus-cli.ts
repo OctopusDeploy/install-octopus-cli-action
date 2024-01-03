@@ -23,7 +23,8 @@ const http: HttpClient = new HttpClient(
     keepAlive: false
   }
 )
-const downloadsRegEx = /^.*_(?<version>(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?)_(?<platform>linux|macOS|windows)_(?<architecture>arm64|amd64).(?<extension>tar.gz|zip)$/gi
+const downloadsRegEx =
+  /^.*_(?<version>(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?)_(?<platform>linux|macOS|windows)_(?<architecture>arm64|amd64).(?<extension>tar.gz|zip)$/gi
 
 type DownloadOption = {
   version: string
@@ -46,7 +47,7 @@ interface VersionsResponse {
 
 interface GitHubRelease {
   tag_name: string
-  assets: GitHubReleaseAsset[];
+  assets: GitHubReleaseAsset[]
 }
 
 interface GitHubReleaseAsset {
@@ -56,26 +57,31 @@ interface GitHubReleaseAsset {
 }
 
 const getVersions = async (): Promise<VersionsResponse | null> => {
-    const releasesResponse = (await http.getJson<GitHubRelease[]>(releasesUrl)).result
-    if (releasesResponse === null) return null
+  const releasesResponse = (await http.getJson<GitHubRelease[]>(releasesUrl))
+    .result
+  if (releasesResponse === null) return null
 
-    const downloads = releasesResponse.flatMap(v => v.assets.filter(a => downloadsRegEx.test(a.name)).map(a => {
-      const matches = downloadsRegEx.exec(a.name)
-      
-      return {
-        version: matches?.groups?.version || v.tag_name.slice(1),
-        location: a.browser_download_url,
-        extension: matches?.groups?.extension || `.${ext}`,
-        platform: matches?.groups?.platform || undefined,
-        architecture: matches?.groups?.architecture || undefined
-      }
-    }))
-    const versions = downloads.map(d => d.version)
+  const downloads = releasesResponse.flatMap(v =>
+    v.assets
+      .filter(a => downloadsRegEx.test(a.name))
+      .map(a => {
+        const matches = downloadsRegEx.exec(a.name)
 
-    return {
-      versions,
-      downloads
-    }
+        return {
+          version: matches?.groups?.version || v.tag_name.slice(1),
+          location: a.browser_download_url,
+          extension: matches?.groups?.extension || `.${ext}`,
+          platform: matches?.groups?.platform || undefined,
+          architecture: matches?.groups?.architecture || undefined
+        }
+      })
+  )
+  const versions = downloads.map(d => d.version)
+
+  return {
+    versions,
+    downloads
+  }
 }
 
 const getDownloadUrl = async (versionSpec: string): Promise<Endpoint> => {
@@ -123,7 +129,7 @@ const getDownloadUrl = async (versionSpec: string): Promise<Endpoint> => {
   }
 
   let arch = 'amd64'
-  switch(osArch) {
+  switch (osArch) {
     case 'arm':
     case 'arm64':
       arch = 'arm64'
@@ -133,7 +139,11 @@ const getDownloadUrl = async (versionSpec: string): Promise<Endpoint> => {
   let downloadUrl: string | undefined
 
   for (const download of versionsResponse.downloads) {
-    if (download.version === version && download.platform === platform && download.architecture === arch) {
+    if (
+      download.version === version &&
+      download.platform === platform &&
+      download.architecture === arch
+    ) {
       downloadUrl = download.location
     }
   }
@@ -172,9 +182,9 @@ export async function installOctopusCli(version: string): Promise<string> {
     extPath = await extractTar(downloadPath)
   }
 
-  fs.rm(`${extPath}/CHANGELOG.md`, {force: true})
-  fs.rm(`${extPath}/README.md`, {force: true})
-  fs.rm(`${extPath}/LICENSE`, {force: true})
+  await fs.rm(`${extPath}/CHANGELOG.md`, {force: true})
+  await fs.rm(`${extPath}/README.md`, {force: true})
+  await fs.rm(`${extPath}/LICENSE`, {force: true})
 
   debug(`Extracted to ${extPath}`)
 
