@@ -7302,6 +7302,7 @@ function run() {
                 (0, core_1.setFailed)(e);
             }
         }
+        process.exit();
     });
 }
 run();
@@ -7365,10 +7366,13 @@ const http = new http_client_1.HttpClient('action-install-octopus-cli', undefine
 });
 const downloadsRegEx = /^.*_(?<version>(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?)_(?<platform>linux|macOS|windows)_(?<architecture>arm64|amd64).(?<extension>tar.gz|zip)$/gi;
 const getVersions = () => __awaiter(void 0, void 0, void 0, function* () {
-    const releasesResponse = (yield http.getJson(releasesUrl)).result;
+    const releasesResponse = (yield http.getJson(releasesUrl))
+        .result;
     if (releasesResponse === null)
         return null;
-    const downloads = releasesResponse.flatMap(v => v.assets.filter(a => downloadsRegEx.test(a.name)).map(a => {
+    const downloads = releasesResponse.flatMap(v => v.assets
+        .filter(a => downloadsRegEx.test(a.name))
+        .map(a => {
         var _a, _b, _c, _d;
         const matches = downloadsRegEx.exec(a.name);
         return {
@@ -7427,7 +7431,9 @@ const getDownloadUrl = (versionSpec) => __awaiter(void 0, void 0, void 0, functi
     }
     let downloadUrl;
     for (const download of versionsResponse.downloads) {
-        if (download.version === version && download.platform === platform && download.architecture === arch) {
+        if (download.version === version &&
+            download.platform === platform &&
+            download.architecture === arch) {
             downloadUrl = download.location;
         }
     }
@@ -7458,9 +7464,9 @@ function installOctopusCli(version) {
         else if (octopusCliDownload.downloadUrl.endsWith('.gz')) {
             extPath = yield (0, tool_cache_1.extractTar)(downloadPath);
         }
-        fs_1.promises.rm(`${extPath}/CHANGELOG.md`, { force: true });
-        fs_1.promises.rm(`${extPath}/README.md`, { force: true });
-        fs_1.promises.rm(`${extPath}/LICENSE`, { force: true });
+        yield fs_1.promises.rm(`${extPath}/CHANGELOG.md`, { force: true });
+        yield fs_1.promises.rm(`${extPath}/README.md`, { force: true });
+        yield fs_1.promises.rm(`${extPath}/LICENSE`, { force: true });
         (0, core_1.debug)(`Extracted to ${extPath}`);
         const cachePath = yield (0, tool_cache_1.cacheDir)(extPath, 'octopus', octopusCliDownload.version, octopusCliDownload.architecture);
         (0, core_1.debug)(`Cached to ${cachePath}`);
