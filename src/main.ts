@@ -17,12 +17,7 @@ async function run(): Promise<void> {
       setFailed(e)
     }
   }
+  process.exit()
 }
 
 run()
-  .then()
-  .catch(e => {
-    if (e instanceof Error) {
-      setFailed(e)
-    }
-  })
