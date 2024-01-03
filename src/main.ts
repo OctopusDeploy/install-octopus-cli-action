@@ -17,6 +17,7 @@ async function run(): Promise<void> {
       setFailed(e)
     }
   }
+  process.exit()
 }
 
 run()
