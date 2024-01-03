@@ -20,3 +20,9 @@ async function run(): Promise<void> {
 }
 
 run()
+  .then()
+  .catch(e => {
+    if (e instanceof Error) {
+      setFailed(e)
+    }
+  })
