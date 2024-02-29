@@ -14,7 +14,7 @@ import {OctopusCLIVersionFetcher} from './octopusCLIVersionFetcher'
 
 const osPlatform: string = os.platform()
 const ext: string = osPlatform === 'win32' ? 'zip' : 'tar.gz'
-const baseUrl = `https://g.octopushq.com/`
+const baseUrl = `https://oc.to/`
 const versionsUrl = `${baseUrl}/OctopusCLIVersions`
 const latestToolsUrl = `${baseUrl}/LatestTools`
 const http: HttpClient = new HttpClient(
