@@ -38,7 +38,7 @@ jobs:
       - id: release-pr
         uses: google-github-actions/release-please-action@v3
         with:
-          token: ${{ secrets.INTEGRATIONS_FNM_BOT_TOKEN }}
+          token: ${{ secrets.DEVEX_BOT_TOKEN }}
           release-type: node
           package-name: ${{env.ACTION_NAME}}
           command: release-pr
