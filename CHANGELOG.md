@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.2](https://github.com/OctopusDeploy/install-octopus-cli-action/compare/v3.1.1...v3.1.2) (2025-02-18)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @actions/tool-cache to v2.0.2 ([#516](https://github.com/OctopusDeploy/install-octopus-cli-action/issues/516)) ([f111451](https://github.com/OctopusDeploy/install-octopus-cli-action/commit/f111451ccdb4fb9ad6a7767420367d7a8dff75d9))
+
 ## [3.1.1](https://github.com/OctopusDeploy/install-octopus-cli-action/compare/v3.1.0...v3.1.1) (2024-01-03)
 
 
