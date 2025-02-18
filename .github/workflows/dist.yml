@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          token: ${{ secrets.INTEGRATIONS_FNM_BOT_TOKEN }}
+          token: ${{ secrets.DEVEX_BOT_TOKEN }}
 
       - name: Setup node 20
         uses: actions/setup-node@v3
@@ -34,8 +34,8 @@ jobs:
 
       - name: commit
         run: |-
-          git config --global user.name "team-integrations-fnm-bot"
-          git config user.email 'integrationsfnmbot@octopus.com'
+          git config --global user.name "team-github-bot"
+          git config user.email 'team-github-bot@octopus.com'
           git add README.md
           git add dist/
           git diff-index --quiet HEAD || (git commit -m "chore: build dist and update README" && git push origin)
