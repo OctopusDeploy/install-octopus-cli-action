@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.1.3](https://github.com/OctopusDeploy/install-octopus-cli-action/compare/v3.1.2...v3.1.3) (2025-03-10)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @actions/core to v1.11.1 ([f1c1b4a](https://github.com/OctopusDeploy/install-octopus-cli-action/commit/f1c1b4a70778764c0b628e27a4d48b7dd74203de))
+* **deps:** update dependency @actions/http-client to v2.2.3 ([f12cd19](https://github.com/OctopusDeploy/install-octopus-cli-action/commit/f12cd199e32574adbfc3b641c0ac192a4b9115ea))
+
 ## [3.1.2](https://github.com/OctopusDeploy/install-octopus-cli-action/compare/v3.1.1...v3.1.2) (2025-02-18)
 
 
