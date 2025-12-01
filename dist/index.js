@@ -28994,7 +28994,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.installOctopusCli = void 0;
+exports.installOctopusCli = exports.downloadsRegEx = void 0;
 const core_1 = __nccwpck_require__(7484);
 const http_client_1 = __nccwpck_require__(4844);
 const tool_cache_1 = __nccwpck_require__(3472);
@@ -29010,17 +29010,17 @@ const releasesUrl = `https://raw.githubusercontent.com/OctopusDeploy/cli/main/re
 const http = new http_client_1.HttpClient('action-install-octopus-cli', undefined, {
     keepAlive: false
 });
-const downloadsRegEx = /^.*_(?<version>(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?)_(?<platform>linux|macOS|windows)_(?<architecture>arm64|amd64).(?<extension>tar.gz|zip)$/gi;
+exports.downloadsRegEx = /^.*_(?<version>(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?)_(?<platform>linux|macOS|windows)_(?<architecture>arm64|amd64)\.(?<extension>tar\.gz|zip)$/i;
 const getVersions = () => __awaiter(void 0, void 0, void 0, function* () {
     const releasesResponse = (yield http.getJson(releasesUrl))
         .result;
     if (releasesResponse === null)
         return null;
     const downloads = releasesResponse.flatMap(v => v.assets
-        .filter(a => downloadsRegEx.test(a.name))
+        .filter(a => exports.downloadsRegEx.test(a.name))
         .map(a => {
         var _a, _b, _c, _d;
-        const matches = downloadsRegEx.exec(a.name);
+        const matches = exports.downloadsRegEx.exec(a.name);
         return {
             version: ((_a = matches === null || matches === void 0 ? void 0 : matches.groups) === null || _a === void 0 ? void 0 : _a.version) || v.tag_name.slice(1),
             location: a.browser_download_url,
@@ -29084,7 +29084,7 @@ const getDownloadUrl = (versionSpec) => __awaiter(void 0, void 0, void 0, functi
         }
     }
     if (downloadUrl === undefined || downloadUrl === null) {
-        throw Error(`Failed to resolve endpoint URL to download: ${downloadUrl}`);
+        throw Error(`Failed to resolve endpoint URL to download for version ${version} (platform ${platform}, architecture ${arch}): ${downloadUrl}`);
     }
     const statusCode = (yield http.head(downloadUrl)).message.statusCode;
     if (statusCode !== 200) {
