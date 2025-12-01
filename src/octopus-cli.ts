@@ -23,8 +23,8 @@ const http: HttpClient = new HttpClient(
     keepAlive: false
   }
 )
-const downloadsRegEx =
-  /^.*_(?<version>(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?)_(?<platform>linux|macOS|windows)_(?<architecture>arm64|amd64).(?<extension>tar.gz|zip)$/gi
+export const downloadsRegEx =
+  /^.*_(?<version>(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?)_(?<platform>linux|macOS|windows)_(?<architecture>arm64|amd64)\.(?<extension>tar\.gz|zip)$/i
 
 type DownloadOption = {
   version: string
@@ -149,7 +149,9 @@ const getDownloadUrl = async (versionSpec: string): Promise<Endpoint> => {
   }
 
   if (downloadUrl === undefined || downloadUrl === null) {
-    throw Error(`Failed to resolve endpoint URL to download: ${downloadUrl}`)
+    throw Error(
+      `Failed to resolve endpoint URL to download for version ${version} (platform ${platform}, architecture ${arch}): ${downloadUrl}`
+    )
   }
 
   const statusCode = (await http.head(downloadUrl)).message.statusCode
