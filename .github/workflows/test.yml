@@ -41,17 +41,30 @@ jobs:
           reporter: jest-junit
 
   test-matrix:
+    name: ${{ matrix.os-name }} (${{ matrix.arch }})
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        os:
-          - ubuntu-latest
-          - ubuntu-24.04-arm
-          - macos-latest
-          - macos-latest-large
-          - windows-latest
-          - windows-11-arm
+        include:
+          - os: ubuntu-latest
+            os-name: Linux
+            arch: amd64
+          - os: ubuntu-24.04-arm
+            os-name: Linux
+            arch: arm64
+          - os: macos-latest
+            os-name: macOS
+            arch: arm64
+          - os: macos-latest-large
+            os-name: macOS
+            arch: amd64
+          - os: windows-latest
+            os-name: Windows
+            arch: amd64
+          - os: windows-11-arm
+            os-name: Windows
+            arch: arm64
 
     steps:
       - uses: actions/checkout@v3
