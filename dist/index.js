@@ -29030,6 +29030,8 @@ const getVersions = () => __awaiter(void 0, void 0, void 0, function* () {
         };
     }));
     const versions = downloads.map(d => d.version);
+    console.log(versions);
+    console.log(downloads);
     return {
         versions,
         downloads
@@ -29077,6 +29079,7 @@ const getDownloadUrl = (versionSpec) => __awaiter(void 0, void 0, void 0, functi
     }
     let downloadUrl;
     for (const download of versionsResponse.downloads) {
+        console.log(`Checking download option: ${download} against ${version}, ${platform}, ${arch}`);
         if (download.version === version &&
             download.platform === platform &&
             download.architecture === arch) {

@@ -78,6 +78,9 @@ const getVersions = async (): Promise<VersionsResponse | null> => {
   )
   const versions = downloads.map(d => d.version)
 
+  console.log(versions)
+  console.log(downloads)
+
   return {
     versions,
     downloads
@@ -139,6 +142,10 @@ const getDownloadUrl = async (versionSpec: string): Promise<Endpoint> => {
   let downloadUrl: string | undefined
 
   for (const download of versionsResponse.downloads) {
+    console.log(
+      `Checking download option: ${download} against ${version}, ${platform}, ${arch}`
+    )
+
     if (
       download.version === version &&
       download.platform === platform &&
