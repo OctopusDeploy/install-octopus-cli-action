@@ -29079,7 +29079,7 @@ const getDownloadUrl = (versionSpec) => __awaiter(void 0, void 0, void 0, functi
     }
     let downloadUrl;
     for (const download of versionsResponse.downloads) {
-        console.log(`Checking download option: ${download} against ${version}, ${platform}, ${arch}`);
+        console.log(`Checking download option: ${download.version}, ${download.platform}, ${download.architecture} against ${version}, ${platform}, ${arch}`);
         if (download.version === version &&
             download.platform === platform &&
             download.architecture === arch) {
