@@ -143,7 +143,7 @@ const getDownloadUrl = async (versionSpec: string): Promise<Endpoint> => {
 
   for (const download of versionsResponse.downloads) {
     console.log(
-      `Checking download option: ${download} against ${version}, ${platform}, ${arch}`
+      `Checking download option: ${download.version}, ${download.platform}, ${download.architecture} against ${version}, ${platform}, ${arch}`
     )
 
     if (
