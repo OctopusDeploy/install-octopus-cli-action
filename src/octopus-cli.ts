@@ -24,7 +24,7 @@ const http: HttpClient = new HttpClient(
   }
 )
 const downloadsRegEx =
-  /^.*_(?<version>(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?)_(?<platform>linux|macOS|windows)_(?<architecture>arm64|amd64)\.(?<extension>tar\.gz|zip)$/i
+  /^.*_(?<version>(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?)_(?<platform>linux|macOS|windows)_(?<architecture>arm64|amd64).(?<extension>tar.gz|zip)$/gi
 
 type DownloadOption = {
   version: string
@@ -77,9 +77,6 @@ const getVersions = async (): Promise<VersionsResponse | null> => {
       })
   )
   const versions = downloads.map(d => d.version)
-
-  console.log(versions)
-  console.log(downloads)
 
   return {
     versions,
@@ -142,10 +139,6 @@ const getDownloadUrl = async (versionSpec: string): Promise<Endpoint> => {
   let downloadUrl: string | undefined
 
   for (const download of versionsResponse.downloads) {
-    console.log(
-      `Checking download option: ${download.version}, ${download.platform}, ${download.architecture} against ${version}, ${platform}, ${arch}`
-    )
-
     if (
       download.version === version &&
       download.platform === platform &&

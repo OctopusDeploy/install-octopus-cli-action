@@ -29010,7 +29010,7 @@ const releasesUrl = `https://raw.githubusercontent.com/OctopusDeploy/cli/main/re
 const http = new http_client_1.HttpClient('action-install-octopus-cli', undefined, {
     keepAlive: false
 });
-const downloadsRegEx = /^.*_(?<version>(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?)_(?<platform>linux|macOS|windows)_(?<architecture>arm64|amd64)\.(?<extension>tar\.gz|zip)$/i;
+const downloadsRegEx = /^.*_(?<version>(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?)_(?<platform>linux|macOS|windows)_(?<architecture>arm64|amd64).(?<extension>tar.gz|zip)$/gi;
 const getVersions = () => __awaiter(void 0, void 0, void 0, function* () {
     const releasesResponse = (yield http.getJson(releasesUrl))
         .result;
@@ -29030,8 +29030,6 @@ const getVersions = () => __awaiter(void 0, void 0, void 0, function* () {
         };
     }));
     const versions = downloads.map(d => d.version);
-    console.log(versions);
-    console.log(downloads);
     return {
         versions,
         downloads
@@ -29079,7 +29077,6 @@ const getDownloadUrl = (versionSpec) => __awaiter(void 0, void 0, void 0, functi
     }
     let downloadUrl;
     for (const download of versionsResponse.downloads) {
-        console.log(`Checking download option: ${download.version}, ${download.platform}, ${download.architecture} against ${version}, ${platform}, ${arch}`);
         if (download.version === version &&
             download.platform === platform &&
             download.architecture === arch) {
