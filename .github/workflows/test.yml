@@ -1,18 +1,18 @@
-name: "build-test"
+name: 'build-test'
 on:
   pull_request:
     paths-ignore:
-      - "**/*.md"
+      - '**/*.md'
 
   push:
     branches:
       - main
     paths-ignore:
-      - "**/*.md"
+      - '**/*.md'
 
   schedule:
     # Daily 5am australian/brisbane time (7pm UTC)
-    - cron: "0 19 * * *"
+    - cron: '0 19 * * *'
 
   workflow_dispatch:
 
@@ -43,14 +43,13 @@ jobs:
         if: success() || failure()
         with:
           name: JEST Tests
-          path: "reports/jest-*.xml"
+          path: 'reports/jest-*.xml'
           reporter: jest-junit
 
   test-matrix:
     name: ${{ matrix.os-name }} (${{ matrix.arch }})
     runs-on: ${{ matrix.os }}
     needs: build
-    continue-on-error: ${{ matrix.arch == 'arm64' }}
     strategy:
       fail-fast: false
       matrix:
