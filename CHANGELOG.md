@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.4](https://github.com/OctopusDeploy/install-octopus-cli-action/compare/v3.1.3...v3.1.4) (2025-12-10)
+
+
+### Bug Fixes
+
+* support for arm64 ([#581](https://github.com/OctopusDeploy/install-octopus-cli-action/issues/581)) ([0f4e715](https://github.com/OctopusDeploy/install-octopus-cli-action/commit/0f4e715e1f6e6385f5cbd883024a6532c1836c64))
+
 ## [3.1.3](https://github.com/OctopusDeploy/install-octopus-cli-action/compare/v3.1.2...v3.1.3) (2025-03-10)
 
 
