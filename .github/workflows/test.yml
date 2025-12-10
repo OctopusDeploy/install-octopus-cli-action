@@ -19,10 +19,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    # https://github.com/dorny/test-reporter/issues/168
-    permissions:
-      statuses: write
-      checks: write
 
     steps:
       - uses: actions/checkout@v3
@@ -39,12 +35,13 @@ jobs:
         run: npm run all
 
       - name: Test Report
-        uses: dorny/test-reporter@v1
+        uses: phoenix-actions/test-reporting@v15
         if: success() || failure()
         with:
           name: JEST Tests
           path: 'reports/jest-*.xml'
           reporter: jest-junit
+          output-to: step-summary
 
   test-matrix:
     name: ${{ matrix.os-name }} (${{ matrix.arch }})
