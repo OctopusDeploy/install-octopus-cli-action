@@ -2734,11 +2734,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 var _a;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.getCmdPath = exports.tryGetExecutablePath = exports.isRooted = exports.isDirectory = exports.exists = exports.IS_WINDOWS = exports.unlink = exports.symlink = exports.stat = exports.rmdir = exports.rename = exports.readlink = exports.readdir = exports.mkdir = exports.lstat = exports.copyFile = exports.chmod = void 0;
+exports.getCmdPath = exports.tryGetExecutablePath = exports.isRooted = exports.isDirectory = exports.exists = exports.READONLY = exports.UV_FS_O_EXLOCK = exports.IS_WINDOWS = exports.unlink = exports.symlink = exports.stat = exports.rmdir = exports.rm = exports.rename = exports.readlink = exports.readdir = exports.open = exports.mkdir = exports.lstat = exports.copyFile = exports.chmod = void 0;
 const fs = __importStar(__nccwpck_require__(9896));
 const path = __importStar(__nccwpck_require__(6928));
-_a = fs.promises, exports.chmod = _a.chmod, exports.copyFile = _a.copyFile, exports.lstat = _a.lstat, exports.mkdir = _a.mkdir, exports.readdir = _a.readdir, exports.readlink = _a.readlink, exports.rename = _a.rename, exports.rmdir = _a.rmdir, exports.stat = _a.stat, exports.symlink = _a.symlink, exports.unlink = _a.unlink;
+_a = fs.promises
+// export const {open} = 'fs'
+, exports.chmod = _a.chmod, exports.copyFile = _a.copyFile, exports.lstat = _a.lstat, exports.mkdir = _a.mkdir, exports.open = _a.open, exports.readdir = _a.readdir, exports.readlink = _a.readlink, exports.rename = _a.rename, exports.rm = _a.rm, exports.rmdir = _a.rmdir, exports.stat = _a.stat, exports.symlink = _a.symlink, exports.unlink = _a.unlink;
+// export const {open} = 'fs'
 exports.IS_WINDOWS = process.platform === 'win32';
+// See https://github.com/nodejs/node/blob/d0153aee367422d0858105abec186da4dff0a0c5/deps/uv/include/uv/win.h#L691
+exports.UV_FS_O_EXLOCK = 0x10000000;
+exports.READONLY = fs.constants.O_RDONLY;
 function exists(fsPath) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -2919,12 +2925,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.findInPath = exports.which = exports.mkdirP = exports.rmRF = exports.mv = exports.cp = void 0;
 const assert_1 = __nccwpck_require__(2613);
-const childProcess = __importStar(__nccwpck_require__(5317));
 const path = __importStar(__nccwpck_require__(6928));
-const util_1 = __nccwpck_require__(9023);
 const ioUtil = __importStar(__nccwpck_require__(5207));
-const exec = util_1.promisify(childProcess.exec);
-const execFile = util_1.promisify(childProcess.execFile);
 /**
  * Copies a file or folder.
  * Based off of shelljs - https://github.com/shelljs/shelljs/blob/9237f66c52e5daa40458f94f9565e18e8132f5a6/src/cp.js
@@ -3005,61 +3007,23 @@ exports.mv = mv;
 function rmRF(inputPath) {
     return __awaiter(this, void 0, void 0, function* () {
         if (ioUtil.IS_WINDOWS) {
-            // Node doesn't provide a delete operation, only an unlink function. This means that if the file is being used by another
-            // program (e.g. antivirus), it won't be deleted. To address this, we shell out the work to rd/del.
             // Check for invalid characters
             // https://docs.microsoft.com/en-us/windows/win32/fileio/naming-a-file
             if (/[*"<>|]/.test(inputPath)) {
                 throw new Error('File path must not contain `*`, `"`, `<`, `>` or `|` on Windows');
             }
-            try {
-                const cmdPath = ioUtil.getCmdPath();
-                if (yield ioUtil.isDirectory(inputPath, true)) {
-                    yield exec(`${cmdPath} /s /c "rd /s /q "%inputPath%""`, {
-                        env: { inputPath }
-                    });
-                }
-                else {
-                    yield exec(`${cmdPath} /s /c "del /f /a "%inputPath%""`, {
-                        env: { inputPath }
-                    });
-                }
-            }
-            catch (err) {
-                // if you try to delete a file that doesn't exist, desired result is achieved
-                // other errors are valid
-                if (err.code !== 'ENOENT')
-                    throw err;
-            }
-            // Shelling out fails to remove a symlink folder with missing source, this unlink catches that
-            try {
-                yield ioUtil.unlink(inputPath);
-            }
-            catch (err) {
-                // if you try to delete a file that doesn't exist, desired result is achieved
-                // other errors are valid
-                if (err.code !== 'ENOENT')
-                    throw err;
-            }
         }
-        else {
-            let isDir = false;
-            try {
-                isDir = yield ioUtil.isDirectory(inputPath);
-            }
-            catch (err) {
-                // if you try to delete a file that doesn't exist, desired result is achieved
-                // other errors are valid
-                if (err.code !== 'ENOENT')
-                    throw err;
-                return;
-            }
-            if (isDir) {
-                yield execFile(`rm`, [`-rf`, `${inputPath}`]);
-            }
-            else {
-                yield ioUtil.unlink(inputPath);
-            }
+        try {
+            // note if path does not exist, error is silent
+            yield ioUtil.rm(inputPath, {
+                force: true,
+                maxRetries: 3,
+                recursive: true,
+                retryDelay: 300
+            });
+        }
+        catch (err) {
+            throw new Error(`File was unable to be removed ${err}`);
         }
     });
 }
@@ -11392,7 +11356,7 @@ module.exports = {
 
 
 const { parseSetCookie } = __nccwpck_require__(8915)
-const { stringify, getHeadersList } = __nccwpck_require__(3834)
+const { stringify } = __nccwpck_require__(3834)
 const { webidl } = __nccwpck_require__(4222)
 const { Headers } = __nccwpck_require__(6349)
 
@@ -11468,14 +11432,13 @@ function getSetCookies (headers) {
 
   webidl.brandCheck(headers, Headers, { strict: false })
 
-  const cookies = getHeadersList(headers).cookies
+  const cookies = headers.getSetCookie()
 
   if (!cookies) {
     return []
   }
 
-  // In older versions of undici, cookies is a list of name:value.
-  return cookies.map((pair) => parseSetCookie(Array.isArray(pair) ? pair[1] : pair))
+  return cookies.map((pair) => parseSetCookie(pair))
 }
 
 /**
@@ -11903,14 +11866,15 @@ module.exports = {
 /***/ }),
 
 /***/ 3834:
-/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+/***/ ((module) => {
 
 "use strict";
 
 
-const assert = __nccwpck_require__(2613)
-const { kHeadersList } = __nccwpck_require__(6443)
-
+/**
+ * @param {string} value
+ * @returns {boolean}
+ */
 function isCTLExcludingHtab (value) {
   if (value.length === 0) {
     return false
@@ -12171,31 +12135,13 @@ function stringify (cookie) {
   return out.join('; ')
 }
 
-let kHeadersListNode
-
-function getHeadersList (headers) {
-  if (headers[kHeadersList]) {
-    return headers[kHeadersList]
-  }
-
-  if (!kHeadersListNode) {
-    kHeadersListNode = Object.getOwnPropertySymbols(headers).find(
-      (symbol) => symbol.description === 'headers list'
-    )
-
-    assert(kHeadersListNode, 'Headers cannot be parsed')
-  }
-
-  const headersList = headers[kHeadersListNode]
-  assert(headersList)
-
-  return headersList
-}
-
 module.exports = {
   isCTLExcludingHtab,
-  stringify,
-  getHeadersList
+  validateCookieName,
+  validateCookiePath,
+  validateCookieValue,
+  toIMFDate,
+  stringify
 }
 
 
@@ -16199,6 +16145,7 @@ const {
   isValidHeaderName,
   isValidHeaderValue
 } = __nccwpck_require__(5523)
+const util = __nccwpck_require__(9023)
 const { webidl } = __nccwpck_require__(4222)
 const assert = __nccwpck_require__(2613)
 
@@ -16752,6 +16699,9 @@ Object.defineProperties(Headers.prototype, {
   [Symbol.toStringTag]: {
     value: 'Headers',
     configurable: true
+  },
+  [util.inspect.custom]: {
+    enumerable: false
   }
 })
 
@@ -25928,6 +25878,20 @@ class Pool extends PoolBase {
       ? { ...options.interceptors }
       : undefined
     this[kFactory] = factory
+
+    this.on('connectionError', (origin, targets, error) => {
+      // If a connection error occurs, we remove the client from the pool,
+      // and emit a connectionError event. They will not be re-used.
+      // Fixes https://github.com/nodejs/undici/issues/3895
+      for (const target of targets) {
+        // Do not use kRemoveClient here, as it will close the client,
+        // but the client cannot be closed in this state.
+        const idx = this[kClients].indexOf(target)
+        if (idx !== -1) {
+          this[kClients].splice(idx, 1)
+        }
+      }
+    })
   }
 
   [kGetDispatcher] () {
@@ -28913,49 +28877,6 @@ exports["default"] = _default;
 
 /***/ }),
 
-/***/ 5238:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
-
-"use strict";
-
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-const core_1 = __nccwpck_require__(7484);
-const path_1 = __nccwpck_require__(6928);
-const octopus_cli_1 = __nccwpck_require__(1889);
-function run() {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            var version = (0, core_1.getInput)('version') || '*';
-            if (version === 'latest') {
-                version = '*';
-            }
-            const octopusCli = yield (0, octopus_cli_1.installOctopusCli)(version);
-            const octopusCliDir = (0, path_1.dirname)(octopusCli);
-            (0, core_1.addPath)(octopusCliDir);
-            (0, core_1.debug)(`Added ${octopusCliDir} to PATH`);
-        }
-        catch (e) {
-            if (e instanceof Error) {
-                (0, core_1.setFailed)(e);
-            }
-        }
-        process.exit();
-    });
-}
-run();
-
-
-/***/ }),
-
 /***/ 1889:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
@@ -28977,24 +28898,26 @@ var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (
 }) : function(o, v) {
     o["default"] = v;
 });
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.installOctopusCli = exports.downloadsRegEx = void 0;
+exports.downloadsRegEx = void 0;
+exports.installOctopusCli = installOctopusCli;
 const core_1 = __nccwpck_require__(7484);
 const http_client_1 = __nccwpck_require__(4844);
 const tool_cache_1 = __nccwpck_require__(3472);
@@ -29011,22 +28934,21 @@ const http = new http_client_1.HttpClient('action-install-octopus-cli', undefine
     keepAlive: false
 });
 exports.downloadsRegEx = /^.*_(?<version>(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?)_(?<platform>linux|macOS|windows)_(?<architecture>arm64|amd64)\.(?<extension>tar\.gz|zip)$/i;
-const getVersions = () => __awaiter(void 0, void 0, void 0, function* () {
-    const releasesResponse = (yield http.getJson(releasesUrl))
+const getVersions = async () => {
+    const releasesResponse = (await http.getJson(releasesUrl))
         .result;
     if (releasesResponse === null)
         return null;
     const downloads = releasesResponse.flatMap(v => v.assets
         .filter(a => exports.downloadsRegEx.test(a.name))
         .map(a => {
-        var _a, _b, _c, _d;
         const matches = exports.downloadsRegEx.exec(a.name);
         return {
-            version: ((_a = matches === null || matches === void 0 ? void 0 : matches.groups) === null || _a === void 0 ? void 0 : _a.version) || v.tag_name.slice(1),
+            version: matches?.groups?.version || v.tag_name.slice(1),
             location: a.browser_download_url,
-            extension: ((_b = matches === null || matches === void 0 ? void 0 : matches.groups) === null || _b === void 0 ? void 0 : _b.extension) || `.${ext}`,
-            platform: ((_c = matches === null || matches === void 0 ? void 0 : matches.groups) === null || _c === void 0 ? void 0 : _c.platform) || undefined,
-            architecture: ((_d = matches === null || matches === void 0 ? void 0 : matches.groups) === null || _d === void 0 ? void 0 : _d.architecture) || undefined
+            extension: matches?.groups?.extension || `.${ext}`,
+            platform: matches?.groups?.platform || undefined,
+            architecture: matches?.groups?.architecture || undefined
         };
     }));
     const versions = downloads.map(d => d.version);
@@ -29034,12 +28956,12 @@ const getVersions = () => __awaiter(void 0, void 0, void 0, function* () {
         versions,
         downloads
     };
-});
-const getDownloadUrl = (versionSpec) => __awaiter(void 0, void 0, void 0, function* () {
+};
+const getDownloadUrl = async (versionSpec) => {
     if (versionSpec === 'latest') {
         versionSpec = '*';
     }
-    const versionsResponse = yield getVersions();
+    const versionsResponse = await getVersions();
     if (versionsResponse === null) {
         (0, core_1.setFailed)(`✕ Unable to get versions...`);
         throw new Error(`✕ Unable to get versions...`);
@@ -29086,43 +29008,40 @@ const getDownloadUrl = (versionSpec) => __awaiter(void 0, void 0, void 0, functi
     if (downloadUrl === undefined || downloadUrl === null) {
         throw Error(`Failed to resolve endpoint URL to download for version ${version} (platform ${platform}, architecture ${arch}): ${downloadUrl}`);
     }
-    const statusCode = (yield http.head(downloadUrl)).message.statusCode;
+    const statusCode = (await http.head(downloadUrl)).message.statusCode;
     if (statusCode !== 200) {
         (0, core_1.setFailed)(`✕ Octopus CLI version not found: ${version}`);
         throw new Error(`Octopus CLI version not found: ${version}`);
     }
     (0, core_1.info)(`✓ Octopus CLI version found: ${version}`);
     return { downloadUrl, version, architecture: arch };
-});
-function installOctopusCli(version) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const octopusCliDownload = yield getDownloadUrl(version);
-        (0, core_1.info)(`⬇️ Downloading Octopus CLI ${octopusCliDownload.version}...`);
-        const dest = (0, path_1.join)(process.env['RUNNER_TEMP'] || '', `${(0, uuid_1.v4)()}.${ext}`);
-        yield fs_1.promises.mkdir((0, path_1.dirname)(dest), { recursive: true });
-        const downloadPath = yield (0, tool_cache_1.downloadTool)(octopusCliDownload.downloadUrl, dest);
-        (0, core_1.debug)(`Downloaded to ${downloadPath}`);
-        (0, core_1.info)(`📦 Extracting Octopus CLI ${octopusCliDownload.version}...`);
-        let extPath = '';
-        if (osPlatform === 'win32') {
-            extPath = yield (0, tool_cache_1.extractZip)(downloadPath);
-        }
-        else if (octopusCliDownload.downloadUrl.endsWith('.gz')) {
-            extPath = yield (0, tool_cache_1.extractTar)(downloadPath);
-        }
-        yield fs_1.promises.rm(`${extPath}/CHANGELOG.md`, { force: true });
-        yield fs_1.promises.rm(`${extPath}/README.md`, { force: true });
-        yield fs_1.promises.rm(`${extPath}/LICENSE`, { force: true });
-        (0, core_1.debug)(`Extracted to ${extPath}`);
-        const cachePath = yield (0, tool_cache_1.cacheDir)(extPath, 'octopus', octopusCliDownload.version, octopusCliDownload.architecture);
-        (0, core_1.debug)(`Cached to ${cachePath}`);
-        const exePath = (0, path_1.join)(cachePath, osPlatform === 'win32' ? 'octopus.exe' : 'octopus');
-        (0, core_1.debug)(`Executable path is ${exePath}`);
-        (0, core_1.info)(`🐙 Octopus CLI ${octopusCliDownload.version} installed successfully`);
-        return exePath;
-    });
+};
+async function installOctopusCli(version) {
+    const octopusCliDownload = await getDownloadUrl(version);
+    (0, core_1.info)(`⬇️ Downloading Octopus CLI ${octopusCliDownload.version}...`);
+    const dest = (0, path_1.join)(process.env['RUNNER_TEMP'] || '', `${(0, uuid_1.v4)()}.${ext}`);
+    await fs_1.promises.mkdir((0, path_1.dirname)(dest), { recursive: true });
+    const downloadPath = await (0, tool_cache_1.downloadTool)(octopusCliDownload.downloadUrl, dest);
+    (0, core_1.debug)(`Downloaded to ${downloadPath}`);
+    (0, core_1.info)(`📦 Extracting Octopus CLI ${octopusCliDownload.version}...`);
+    let extPath = '';
+    if (osPlatform === 'win32') {
+        extPath = await (0, tool_cache_1.extractZip)(downloadPath);
+    }
+    else if (octopusCliDownload.downloadUrl.endsWith('.gz')) {
+        extPath = await (0, tool_cache_1.extractTar)(downloadPath);
+    }
+    await fs_1.promises.rm(`${extPath}/CHANGELOG.md`, { force: true });
+    await fs_1.promises.rm(`${extPath}/README.md`, { force: true });
+    await fs_1.promises.rm(`${extPath}/LICENSE`, { force: true });
+    (0, core_1.debug)(`Extracted to ${extPath}`);
+    const cachePath = await (0, tool_cache_1.cacheDir)(extPath, 'octopus', octopusCliDownload.version, octopusCliDownload.architecture);
+    (0, core_1.debug)(`Cached to ${cachePath}`);
+    const exePath = (0, path_1.join)(cachePath, osPlatform === 'win32' ? 'octopus.exe' : 'octopus');
+    (0, core_1.debug)(`Executable path is ${exePath}`);
+    (0, core_1.info)(`🐙 Octopus CLI ${octopusCliDownload.version} installed successfully`);
+    return exePath;
 }
-exports.installOctopusCli = installOctopusCli;
 
 
 /***/ }),
@@ -29136,6 +29055,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.OctopusCLIVersionFetcher = void 0;
 const semver_1 = __nccwpck_require__(9318);
 class OctopusCLIVersionFetcher {
+    versions;
     constructor(versions) {
         this.versions = versions;
     }
@@ -31111,12 +31031,38 @@ module.exports = parseParams
 /******/ 	if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = __dirname + "/";
 /******/ 	
 /************************************************************************/
-/******/ 	
-/******/ 	// startup
-/******/ 	// Load entry module and return exports
-/******/ 	// This entry module is referenced by other modules so it can't be inlined
-/******/ 	var __webpack_exports__ = __nccwpck_require__(5238);
-/******/ 	module.exports = __webpack_exports__;
-/******/ 	
+var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be in strict mode.
+(() => {
+"use strict";
+var exports = __webpack_exports__;
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const core_1 = __nccwpck_require__(7484);
+const path_1 = __nccwpck_require__(6928);
+const octopus_cli_1 = __nccwpck_require__(1889);
+async function run() {
+    try {
+        let version = (0, core_1.getInput)('version') || '*';
+        if (version === 'latest') {
+            version = '*';
+        }
+        const octopusCli = await (0, octopus_cli_1.installOctopusCli)(version);
+        const octopusCliDir = (0, path_1.dirname)(octopusCli);
+        (0, core_1.addPath)(octopusCliDir);
+        (0, core_1.debug)(`Added ${octopusCliDir} to PATH`);
+    }
+    catch (e) {
+        if (e instanceof Error) {
+            (0, core_1.setFailed)(e);
+        }
+    }
+    process.exit();
+}
+run();
+
+})();
+
+module.exports = __webpack_exports__;
 /******/ })()
 ;
