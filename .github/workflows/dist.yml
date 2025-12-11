@@ -7,14 +7,14 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
         with:
           token: ${{ secrets.DEVEX_BOT_TOKEN }}
 
-      - name: Setup node 20
-        uses: actions/setup-node@v3
+      - name: Setup node 24
+        uses: actions/setup-node@v6
         with:
-          node-version: 20.19.5
+          node-version: 24.11.1
 
       - name: install
         run: npm ci

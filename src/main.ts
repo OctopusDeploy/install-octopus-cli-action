@@ -4,7 +4,7 @@ import {installOctopusCli} from './octopus-cli'
 
 async function run(): Promise<void> {
   try {
-    var version = getInput('version') || '*'
+    let version = getInput('version') || '*'
     if (version === 'latest') {
       version = '*'
     }
