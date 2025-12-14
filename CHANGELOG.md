@@ -1,5 +1,16 @@
 # Changelog
 
+## [4.0.0](https://github.com/OctopusDeploy/install-octopus-cli-action/compare/v3.1.4...v4.0.0) (2025-12-14)
+
+
+### ⚠ BREAKING CHANGES
+
+* Update node to node 24 ([#586](https://github.com/OctopusDeploy/install-octopus-cli-action/issues/586))
+
+### Features
+
+* Update node to node 24 ([#586](https://github.com/OctopusDeploy/install-octopus-cli-action/issues/586)) ([e805a3e](https://github.com/OctopusDeploy/install-octopus-cli-action/commit/e805a3e7ec6af3a030bdf8744b64ff05400d7031))
+
 ## [3.1.4](https://github.com/OctopusDeploy/install-octopus-cli-action/compare/v3.1.3...v3.1.4) (2025-12-10)
 
 
