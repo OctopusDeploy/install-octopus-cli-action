@@ -5,7 +5,7 @@ describe('installer', () => {
   test('fails to acquire a version of Octopus CLI', () => {
     expect.assertions(1)
     return installOctopusCli('0.0.0').catch(e => {
-      expect(<Error>e.message).toContain(
+      expect(e.message as Error).toContain(
         'Failed to resolve endpoint URL to download for version'
       )
     })
