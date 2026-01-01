@@ -88,5 +88,5 @@
     "postbuild": "ncc build out/main.js -o dist",
     "test": "jest --ci --reporters=default --reporters=jest-junit --passWithNoTests"
   },
-  "version": "4.0.0"
+  "version": "4.1.0"
 }
