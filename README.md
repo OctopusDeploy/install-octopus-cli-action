@@ -23,6 +23,7 @@ To install the latest version (i.e. `*` or `latest`) of the Octopus CLI:
 
 ```yml
 - name: Install Octopus CLI 🐙
+  id: install_octopus_cli
   uses: OctopusDeploy/install-octopus-cli-action@v4
   with:
     version: '*'
@@ -32,6 +33,7 @@ To install a specific version of the Octopus CLI:
 
 ```yml
 - name: Install Octopus CLI 🐙
+  id: install_octopus_cli
   uses: OctopusDeploy/install-octopus-cli-action@v4
   with:
     version: 0.8.0
@@ -41,10 +43,12 @@ Here's an example of invoking the `account list` command after installing the Oc
 
 ```yml
 - name: Install Octopus CLI 🐙
+  id: install_octopus_cli
   uses: OctopusDeploy/install-octopus-cli-action@v4
   with:
     version: 0.8.0
 - name: list-octopusdeploy-accounts
+  id: list_octopusdeploy_accounts
   env:
     OCTOPUS_API_KEY: ${{ secrets.apiKey }}
     OCTOPUS_URL: ${{ secrets.serverURL }}
