@@ -9,7 +9,7 @@ jobs:
   release-please-release:
     runs-on: ubuntu-latest
     steps:
-      - uses: google-github-actions/release-please-action@v3
+      - uses: googleapis/release-please-action@v3
         id: release
         with:
           package-name: ${{env.ACTION_NAME}}
@@ -36,7 +36,7 @@ jobs:
       - release-please-release
     steps:
       - id: release-pr
-        uses: google-github-actions/release-please-action@v3
+        uses: googleapis/release-please-action@v3
         with:
           token: ${{ secrets.DEVEX_BOT_TOKEN }}
           release-type: node
