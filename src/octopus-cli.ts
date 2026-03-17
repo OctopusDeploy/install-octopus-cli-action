@@ -10,7 +10,7 @@ import {promises as fs} from 'fs'
 import * as os from 'os'
 import {dirname, join} from 'path'
 import {v4} from 'uuid'
-import {OctopusCLIVersionFetcher} from './octopusCLIVersionFetcher'
+import {OctopusCLIVersionFetcher} from './octopusCLIVersionFetcher.js'
 
 const osPlatform: string = os.platform()
 const osArch: string = os.arch()
