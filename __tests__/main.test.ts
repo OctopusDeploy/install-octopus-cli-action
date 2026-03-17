@@ -1,5 +1,5 @@
 import * as path from 'path'
-import {installOctopusCli} from '../src/octopus-cli'
+import {installOctopusCli} from '../src/octopus-cli.js'
 
 describe('installer', () => {
   test('fails to acquire a version of Octopus CLI', () => {
