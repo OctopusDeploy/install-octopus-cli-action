@@ -11,12 +11,20 @@ export default [
       '**/dist/',
       '**/lib/',
       '**/node_modules/',
-      '**/jest.config.js',
       '**/out/',
       'eslint.config.mjs'
     ]
   },
   github.getFlatConfigs().recommended,
+  {
+    settings: {
+      'import/resolver': {
+        typescript: {
+          alwaysTryTypes: true
+        }
+      }
+    }
+  },
   {
     files: ['**/*.ts'],
     ignores: ['__tests__/**/*.ts'],
