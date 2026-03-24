@@ -22,7 +22,7 @@
     "@typescript-eslint/eslint-plugin": "8.57.1",
     "@typescript-eslint/parser": "8.57.1",
     "cross-env": "^10.1.0",
-    "esbuild": "^0.27.4",
+    "esbuild": "0.25.1",
     "eslint": "9.39.4",
     "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-plugin-github": "6.0.0",
@@ -38,7 +38,8 @@
     "typescript": "5.9.3"
   },
   "homepage": "https://github.com/OctopusDeploy/install-octopus-cli-action#readme",
-  "type": "module",
+  "main": "dist/index.js",
+  "name": "install-octopus-cli-action",
   "jest": {
     "clearMocks": true,
     "collectCoverage": true,
@@ -87,19 +88,17 @@
     "github-actions"
   ],
   "license": "Apache-2.0",
-  "main": "dist/index.cjs",
-  "name": "install-octopus-cli-action",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/OctopusDeploy/install-octopus-cli-action.git"
   },
   "scripts": {
     "all": "npm run format && npm run build && npm test",
-    "build": "tsc",
+    "build": "esbuild src/main.ts --bundle --platform=node --target=node24 --outfile=dist/index.js",
+    "prebuild": "eslint src/**/*.ts",
+    "typecheck": "tsc --noEmit",
     "format": "prettier --write **/*.ts",
     "format-check": "prettier --check **/*.ts",
-    "prebuild": "eslint src/**/*.ts",
-    "postbuild": "esbuild out/main.js --bundle --platform=node --target=node20 --format=cjs --outfile=dist/index.cjs",
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --ci --reporters=default --reporters=jest-junit --passWithNoTests"
   },
   "version": "4.0.0"
