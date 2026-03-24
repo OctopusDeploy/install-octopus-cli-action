@@ -1,6 +1,6 @@
 import {addPath, debug, getInput, setFailed} from '@actions/core'
 import {dirname} from 'path'
-import {installOctopusCli} from './octopus-cli.js'
+import {installOctopusCli} from './octopus-cli'
 
 async function run(): Promise<void> {
   try {

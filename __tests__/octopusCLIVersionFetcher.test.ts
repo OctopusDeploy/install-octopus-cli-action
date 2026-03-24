@@ -1,4 +1,4 @@
-import {OctopusCLIVersionFetcher} from '../src/octopusCLIVersionFetcher.js'
+import {OctopusCLIVersionFetcher} from '../src/octopusCLIVersionFetcher'
 
 describe('OctopusCLIVersionFetcher tests', () => {
   test('Gets latest', () => {

@@ -1,4 +1,4 @@
-import {downloadsRegEx} from '../src/octopus-cli.js'
+import {downloadsRegEx} from '../src/octopus-cli'
 
 describe('downloadsRegEx tests', () => {
   test('matches amd64 tar.gz filename', () => {
