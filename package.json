@@ -4,9 +4,9 @@
     "url": "https://github.com/OctopusDeploy/install-octopus-cli-action/issues"
   },
   "dependencies": {
-    "@actions/core": "1.11.1",
-    "@actions/http-client": "2.2.3",
-    "@actions/tool-cache": "2.0.2",
+    "@actions/core": "3.0.0",
+    "@actions/http-client": "4.0.0",
+    "@actions/tool-cache": "4.0.0",
     "uuid": "9.0.1"
   },
   "description": "GitHub Action to Install the Octopus CLI",
@@ -19,10 +19,12 @@
     "@types/semver": "7.7.1",
     "@types/tmp": "0.2.6",
     "@types/uuid": "9.0.8",
-    "@typescript-eslint/parser": "8.57.1",
     "@typescript-eslint/eslint-plugin": "8.57.1",
-    "@vercel/ncc": "0.38.4",
+    "@typescript-eslint/parser": "8.57.1",
+    "cross-env": "^10.1.0",
+    "esbuild": "0.25.1",
     "eslint": "9.39.4",
+    "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-plugin-github": "6.0.0",
     "eslint-plugin-jest": "29.15.0",
     "globals": "16.5.0",
@@ -36,13 +38,21 @@
     "typescript": "5.9.3"
   },
   "homepage": "https://github.com/OctopusDeploy/install-octopus-cli-action#readme",
+  "main": "dist/index.js",
+  "name": "install-octopus-cli-action",
   "jest": {
     "clearMocks": true,
     "collectCoverage": true,
+    "extensionsToTreatAsEsm": [
+      ".ts"
+    ],
     "moduleFileExtensions": [
       "js",
       "ts"
     ],
+    "moduleNameMapper": {
+      "^(\\.{1,2}/.*)\\.js$": "$1"
+    },
     "setupFiles": [
       "<rootDir>/src/test-setup.ts"
     ],
@@ -53,7 +63,12 @@
     "testRunner": "jest-circus/runner",
     "testTimeout": 10000,
     "transform": {
-      "^.+\\.ts$": "ts-jest"
+      "^.+\\.ts$": [
+        "ts-jest",
+        {
+          "useESM": true
+        }
+      ]
     },
     "verbose": true
   },
@@ -73,20 +88,18 @@
     "github-actions"
   ],
   "license": "Apache-2.0",
-  "main": "dist/main.js",
-  "name": "install-octopus-cli-action",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/OctopusDeploy/install-octopus-cli-action.git"
   },
   "scripts": {
     "all": "npm run format && npm run build && npm test",
-    "build": "tsc",
+    "build": "esbuild src/main.ts --bundle --platform=node --target=node24 --outfile=dist/index.js",
+    "prebuild": "eslint src/**/*.ts",
+    "typecheck": "tsc --noEmit",
     "format": "prettier --write **/*.ts",
     "format-check": "prettier --check **/*.ts",
-    "prebuild": "eslint src/**/*.ts",
-    "postbuild": "ncc build out/main.js -o dist",
-    "test": "jest --ci --reporters=default --reporters=jest-junit --passWithNoTests"
+    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --ci --reporters=default --reporters=jest-junit --passWithNoTests"
   },
   "version": "4.0.0"
 }

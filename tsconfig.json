@@ -1,12 +1,12 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "module": "commonjs",
-    "outDir": "./out",
-    "rootDir": "./src",
+    "module": "ES2022",
+    "moduleResolution": "bundler",
     "strict": true,
     "noImplicitAny": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "noEmit": true
   },
   "exclude": ["node_modules", "**/*.test.ts"]
 }
