@@ -1,5 +1,17 @@
 # Changelog
 
+## [4.1.0](https://github.com/OctopusDeploy/install-octopus-cli-action/compare/v4.0.0...v4.1.0) (2026-03-25)
+
+
+### Features
+
+* Add workflow to check for conventional commit format PR title ([#587](https://github.com/OctopusDeploy/install-octopus-cli-action/issues/587)) ([2e431ae](https://github.com/OctopusDeploy/install-octopus-cli-action/commit/2e431aeadce21a0f6524300200950e501254cc9b))
+
+
+### Bug Fixes
+
+* **deps:** upgrade @actions/* packages to resolve undici CVE ([#625](https://github.com/OctopusDeploy/install-octopus-cli-action/issues/625)) ([8db9086](https://github.com/OctopusDeploy/install-octopus-cli-action/commit/8db9086a2c7803d1069d972cbfbd83c94ae25058))
+
 ## [4.0.0](https://github.com/OctopusDeploy/install-octopus-cli-action/compare/v3.1.4...v4.0.0) (2025-12-14)
 
 
