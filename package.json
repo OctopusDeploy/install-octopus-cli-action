@@ -101,5 +101,5 @@
     "format-check": "prettier --check **/*.ts",
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --ci --reporters=default --reporters=jest-junit --passWithNoTests"
   },
-  "version": "4.0.0"
+  "version": "4.1.0"
 }
