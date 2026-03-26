@@ -22,7 +22,7 @@
     "@typescript-eslint/eslint-plugin": "8.57.1",
     "@typescript-eslint/parser": "8.57.1",
     "cross-env": "^10.1.0",
-    "esbuild": "0.25.1",
+    "esbuild": "0.25.12",
     "eslint": "9.39.4",
     "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-plugin-github": "6.0.0",
