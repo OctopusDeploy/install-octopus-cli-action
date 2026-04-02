@@ -6,13 +6,14 @@ module.exports = {
     ':ignoreModulesAndTests',
     ':pinVersions',
     ':rebaseStalePrs',
-    ':automergeDigest',
-    ':automergePatch',
+    // Automatic merging is temporarily disabled.
+    // ':automergeDigest',
+    // ':automergePatch',
     ':automergePr',
     ':automergeRequireAllStatusChecks',
-    ':automergeLinters',
-    ':automergeTesters',
-    ':automergeTypes',
+    // ':automergeLinters',
+    // ':automergeTesters',
+    // ':automergeTypes',
     'packages:eslint',
     'workarounds:typesNodeVersioning',
     'github>whitesource/merge-confidence:beta'
@@ -20,7 +21,12 @@ module.exports = {
   branchPrefix: 'renovate/',
   platform: 'github',
   repositories: ['OctopusDeploy/install-octopus-cli-action'],
-  packageRules: [],
+  packageRules: [
+    {
+      matchDatasources: ['npm'],
+      minimumReleaseAge: '2 days'
+    }
+  ],
   timezone: 'Australia/Brisbane',
   onboarding: false,
   requireConfig: false,
