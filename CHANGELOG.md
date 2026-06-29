@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.1.1](https://github.com/OctopusDeploy/install-octopus-cli-action/compare/v4.1.0...v4.1.1) (2026-06-29)
+
+
+### Bug Fixes
+
+* **deps:** bump undici from 6.24.1 to 6.27.0 ([#657](https://github.com/OctopusDeploy/install-octopus-cli-action/issues/657)) ([4353d43](https://github.com/OctopusDeploy/install-octopus-cli-action/commit/4353d436b9eb6a50fbefb36c4b9e237e3f88a381))
+
 ## [4.1.0](https://github.com/OctopusDeploy/install-octopus-cli-action/compare/v4.0.0...v4.1.0) (2026-03-25)
 
 
