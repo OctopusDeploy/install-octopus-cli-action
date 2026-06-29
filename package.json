@@ -4,7 +4,7 @@
     "url": "https://github.com/OctopusDeploy/install-octopus-cli-action/issues"
   },
   "dependencies": {
-    "@actions/core": "3.0.0",
+    "@actions/core": "3.0.1",
     "@actions/http-client": "4.0.0",
     "@actions/tool-cache": "4.0.0",
     "uuid": "9.0.1"
