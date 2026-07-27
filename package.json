@@ -31,7 +31,7 @@
     "jest": "29.7.0",
     "jest-circus": "29.7.0",
     "jest-junit": "17.0.0",
-    "js-yaml": "5.2.1",
+    "js-yaml": "5.2.2",
     "prettier": "2.8.8",
     "tmp": "0.2.7",
     "ts-jest": "29.4.9",
@@ -101,5 +101,8 @@
     "format-check": "prettier --check **/*.ts",
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --ci --reporters=default --reporters=jest-junit --passWithNoTests"
   },
-  "version": "4.1.0"
+  "version": "4.1.0",
+  "overrides": {
+    "brace-expansion": "^5.0.8"
+  }
 }
