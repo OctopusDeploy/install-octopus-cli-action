@@ -1,5 +1,17 @@
 # Changelog
 
+## [4.1.1](https://github.com/OctopusDeploy/install-octopus-cli-action/compare/v4.1.0...v4.1.1) (2026-09-04)
+
+
+### Bug Fixes
+
+* **deps-dev:** bump browserslist from 4.28.1 to 4.28.8 ([#671](https://github.com/OctopusDeploy/install-octopus-cli-action/issues/671)) ([250afdb](https://github.com/OctopusDeploy/install-octopus-cli-action/commit/250afdbb09175fbb8babb6202a0edd5ffe1af148))
+* **deps:** bump brace-expansion to resolve DoS advisory ([#665](https://github.com/OctopusDeploy/install-octopus-cli-action/issues/665)) ([18d4d88](https://github.com/OctopusDeploy/install-octopus-cli-action/commit/18d4d88b091cc2ddf20db6cf3040257976f9add2))
+* **deps:** bump undici from 6.24.1 to 6.27.0 ([#657](https://github.com/OctopusDeploy/install-octopus-cli-action/issues/657)) ([4353d43](https://github.com/OctopusDeploy/install-octopus-cli-action/commit/4353d436b9eb6a50fbefb36c4b9e237e3f88a381))
+* **deps:** resolve new brace-expansion and js-yaml advisories ([#667](https://github.com/OctopusDeploy/install-octopus-cli-action/issues/667)) ([d2fed07](https://github.com/OctopusDeploy/install-octopus-cli-action/commit/d2fed07f95d0be4b421c64af4c9f5525f79b43d2))
+* **deps:** resolve remaining npm audit advisories ([#666](https://github.com/OctopusDeploy/install-octopus-cli-action/issues/666)) ([3459fd8](https://github.com/OctopusDeploy/install-octopus-cli-action/commit/3459fd84236907bdb3accf34bcf200ea143e8679))
+* **deps:** update js-yaml to resolve DoS advisory ([#663](https://github.com/OctopusDeploy/install-octopus-cli-action/issues/663)) ([54283e4](https://github.com/OctopusDeploy/install-octopus-cli-action/commit/54283e4aac6fe085ced636eae5515983be8cb7a7))
+
 ## [4.1.0](https://github.com/OctopusDeploy/install-octopus-cli-action/compare/v4.0.0...v4.1.0) (2026-03-25)
 
 
