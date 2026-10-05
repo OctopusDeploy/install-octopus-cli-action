@@ -1,5 +1,13 @@
 # Changelog
 
+## [4.1.2](https://github.com/OctopusDeploy/install-octopus-cli-action/compare/v4.1.1...v4.1.2) (2026-10-05)
+
+
+### Bug Fixes
+
+* **deps:** bump undici from 6.28.0 to 6.29.0 ([#675](https://github.com/OctopusDeploy/install-octopus-cli-action/issues/675)) ([089246c](https://github.com/OctopusDeploy/install-octopus-cli-action/commit/089246c095d3983cacd4092fdaa5b1fb01fb2369))
+* **deps:** resolve npm audit advisories ([#680](https://github.com/OctopusDeploy/install-octopus-cli-action/issues/680)) ([1460b87](https://github.com/OctopusDeploy/install-octopus-cli-action/commit/1460b87376992b4c62c5bc88bc02452d40f3c4e3))
+
 ## [4.1.1](https://github.com/OctopusDeploy/install-octopus-cli-action/compare/v4.1.0...v4.1.1) (2026-09-04)
 
 
