@@ -7,5 +7,7 @@ on:
 jobs:
   renovate:
     uses: OctopusDeploy/team-bmbb-renovate-config/.github/workflows/renovate.yml@main
+    permissions:
+      contents: read
     secrets:
       RENOVATE_GITHUB_TOKEN: ${{ secrets.RENOVATE_GITHUB_TOKEN }}
