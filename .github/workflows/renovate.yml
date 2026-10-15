@@ -1,0 +1,11 @@
+name: Renovate
+on:
+  schedule:
+    - cron: "30 4 * * *"
+      timezone: Australia/Brisbane
+  workflow_dispatch:
+jobs:
+  renovate:
+    uses: OctopusDeploy/team-bmbb-renovate-config/.github/workflows/renovate.yml@main
+    secrets:
+      RENOVATE_GITHUB_TOKEN: ${{ secrets.RENOVATE_GITHUB_TOKEN }}
