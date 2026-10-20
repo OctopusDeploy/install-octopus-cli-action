@@ -1,7 +1,7 @@
 name: Renovate
 on:
   schedule:
-    - cron: "30 4 * * *"
+    - cron: "0 3 * * *"
       timezone: Australia/Brisbane
   workflow_dispatch:
 jobs:
