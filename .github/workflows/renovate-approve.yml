@@ -1,0 +1,9 @@
+name: Renovate approve
+on:
+  pull_request:
+    types: [synchronize, auto_merge_enabled]
+jobs:
+  renovate-approve:
+    uses: OctopusDeploy/team-bmbb-renovate-config/.github/workflows/renovate-approve.yml@main
+    permissions:
+      pull-requests: write
