@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.1.3](https://github.com/OctopusDeploy/install-octopus-cli-action/compare/v4.1.2...v4.1.3) (2026-11-06)
+
+
+### Bug Fixes
+
+* **deps:** resolve npm audit advisories ([#686](https://github.com/OctopusDeploy/install-octopus-cli-action/issues/686)) ([8f170de](https://github.com/OctopusDeploy/install-octopus-cli-action/commit/8f170deebf07e3a22dfa9243fe60f160a1f873ac))
+
 ## [4.1.2](https://github.com/OctopusDeploy/install-octopus-cli-action/compare/v4.1.1...v4.1.2) (2026-10-05)
 
 
