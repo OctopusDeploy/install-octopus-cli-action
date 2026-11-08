@@ -33,7 +33,7 @@ jobs:
         run: npm run all
 
       - name: Test Report
-        uses: phoenix-actions/test-reporting@v15
+        uses: phoenix-actions/test-reporting@f957cd93fc2d848d556fa0d03c57bc79127b6b5e # v15
         if: success() || failure()
         with:
           name: JEST Tests
