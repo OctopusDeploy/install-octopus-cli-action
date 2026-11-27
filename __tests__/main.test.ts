@@ -11,8 +11,8 @@ describe('installer', () => {
     })
   }, 100000)
 
-  test('acquires version 0.5.* of Octopus CLI', () => {
-    return installOctopusCli('0.5.*').then(data => {
+  test('acquires Octopus CLI using a wildcard version range (2.31.*)', () => {
+    return installOctopusCli('2.31.*').then(data => {
       expect(data).toContain(path.sep + 'octopus' + path.sep)
     })
   }, 100000)
